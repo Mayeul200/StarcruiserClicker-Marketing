@@ -21,20 +21,26 @@ On ne disperse pas : **YouTube Shorts + TikTok d'abord** (mêmes vidéos vertica
 
 ## 3. Formats de contenu
 
-Répartition de test sur le premier mois :
+Le contenu parle **du jeu lui-même** : une vidéo principale (trailer best-of) + une vidéo par mécanique.
 
-| Format | Part | Description |
+| Vidéo | Description | Durée |
 |---|---|---|
-| **A — Progression spectaculaire** | 50 % | Accélération du début vers une destination lointaine. « How far can you go with just one click? » (15–20 s) |
-| **B — Plaisir d'optimisation** | 25 % | Une petite amélioration → industrie spatiale entière. « From one click to an entire space industry. » |
-| **C — Révélation cosmique** | 15 % | Visuel fort (Andromède, trou noir, centre galactique) → gameplay réel. « Your next destination is 2.5 million light-years away. » |
-| **D — Coulisses dev** | 10 % | Avant/après, choix de design, question à la communauté. « I built a space clicker game. Here's what happens when you reach Andromeda. » |
+| **🎬 Principale** | Trailer best-of : clics, bâtiments, fusée, voyage, comète, carte, destination lointaine | 30 s |
+| **⚙️ Clics** | La pièce dorée, les clics, le premier bâtiment, l'automatisation | 20 s |
+| **⚙️ Bâtiments** | 14 bâtiments de l'Atelier à la Forge du Vide | 20 s |
+| **⚙️ Fusée** | Assemblage des 10 pièces, +4 % de portée chacune | 20 s |
+| **⚙️ Voyage** | Décollage, cinématique, nouvelle planète, bonus permanent | 25 s |
+| **⚙️ Comètes** | Interception de comètes au missile, mini-jeux | 15 s |
+| **⚙️ Contrats** | Contrats express 30 s | 15 s |
+| **⚙️ Cartes** | Boosters, collection, bonus | 15 s |
+| **⚙️ Atelier** | Poussière d'Étoiles, Atelier Galactique, améliorations permanentes | 20 s |
+| **⚙️ Classement** | Classement mondial des pilotes, Radar de pilote | 15 s |
 
-Ce sont des proportions de test, pas une formule garantie. Elles s'ajustent selon les KPI (`docs/KPI.md`).
+Cadence : **1 vidéo/jour** une fois la série créée. Après la série, on décline les **mêmes séquences avec de nouvelles accroches** (3-4 par séquence) plutôt que de tourner de nouvelles vidéos. Le détail des plans à filmer est dans `docs/TOURNAGE.md`.
 
 ## 4. Pipeline de production
 
-1. **Bibliothèque de séquences** — enregistrer une fois des screencasts propres : clics, achats, accélérations, destinations, effets. Matière première de dizaines de vidéos (`assets/sequences/`).
+1. **Bibliothèque de séquences** — 10 screencasts propres (1 principal + 9 mécaniques). Chaque séquence sert ensuite 3-4 fois avec des accroches différentes (`assets/sequences/`, guide complet dans `docs/TOURNAGE.md`).
 2. **Génération des concepts** — l'IA pioche une séquence, propose 5 accroches, rédige la description, choisit le format. Anti-doublon via `content/ideas.json`.
 3. **Montage automatique** — `scripts/build_video.py` (FFmpeg) : crop vertical 1080×1920, accroche en haut, sous-titres, outro avec le nom du jeu.
 4. **Programmation** — GitHub Actions produit les lots (`content-pipeline.yml`). Publication API directe seulement si les autorisations existent ; sinon lot prêt à publier manuellement.
@@ -75,6 +81,6 @@ Clés API uniquement dans **GitHub → Settings → Secrets and variables → Ac
 
 | Version | Contenu | État |
 |---|---|---|
-| **V1** | Post généré tous les 2 jours, publié automatiquement, historique anti-doublon | ✅ Ce dépôt |
+| **V1** | 1 fiche vidéo/jour générée automatiquement, historique anti-doublon | ✅ Ce dépôt |
 | **V2** | Récupération des commentaires, réponses IA préparées, validation humaine | ⬜ |
 | **V3** | Analyse des stats, choix des sujets performants, adaptation progressive | ⬜ |

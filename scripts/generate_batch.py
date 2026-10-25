@@ -10,7 +10,6 @@ Exemple :
 
 import argparse
 import json
-import random
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -21,15 +20,11 @@ TEMPLATE_PATH = ROOT / "templates" / "fiche-post.md"
 OUTPUT_DIR = ROOT / "content" / "postes"
 
 FORMAT_LABELS = {
-    "format_a_progression": ("A", "Progression"),
-    "format_b_optimisation": ("B", "Optimisation"),
-    "format_c_revelation": ("C", "Révélation"),
-    "format_d_coulisses": ("D", "Coulisses"),
+    "format_main": ("🎬", "Vidéo principale"),
+    "format_mecanique": ("⚙️", "Mécanique"),
 }
 
-# Répartition de test : 50% A, 25% B, 15% C, 10% D
-WEIGHTS = {"format_a_progression": 50, "format_b_optimisation": 25,
-           "format_c_revelation": 15, "format_d_coulisses": 10}
+# La vidéo principale d'abord, puis les mécaniques dans l'ordre défini
 
 
 def load_ideas() -> dict:
@@ -44,6 +39,7 @@ def save_ideas(ideas: dict) -> None:
 
 
 def pick_ideas(ideas: dict, count: int) -> list[dict]:
+    """Vidéo principale d'abord, puis les mécaniques dans l'ordre du fichier."""
     available = {k: [i for i in v if not i.get("used")] for k, v in ideas.items()}
     total = sum(len(v) for v in available.values())
     if total == 0:
@@ -53,29 +49,17 @@ def pick_ideas(ideas: dict, count: int) -> list[dict]:
         print(f"⚠️ Seulement {total} idées disponibles ; demande de {count}.")
         count = total
 
-    picked: list[tuple[str, dict]] = []
-    keys = [k for k in available if available[k]]
-    for _ in range(count):
-        key = random.choices(keys, weights=[WEIGHTS[k] for k in keys])[0]
-        idea = random.choice(available[key])
-        picked.append((key, idea))
-        available[key].remove(idea)
-        if not available[key]:
-            keys.remove(key)
-    return [{"key": k, "idea": i} for k, i in picked]
+    ordered: list[tuple[str, dict]] = []
+    for key in ("format_main", "format_mecanique"):
+        for idea in available.get(key, []):
+            ordered.append((key, idea))
+    return [{"key": k, "idea": i} for k, i in ordered[:count]]
 
 
 def next_dates(count: int) -> list[str]:
-    """Prochains créneaux : lundi, mercredi, vendredi, dimanche."""
+    """Un créneau par jour, à partir de demain (cadence : 1 vidéo/jour)."""
     today = date.today()
-    weekdays = [0, 2, 4, 6]
-    slots = []
-    d = today
-    while len(slots) < count:
-        if d.weekday() in weekdays and d >= today:
-            slots.append(d.isoformat())
-        d += timedelta(days=1)
-    return slots
+    return [(today + timedelta(days=i + 1)).isoformat() for i in range(count)]
 
 
 def render(template: str, key: str, idea: dict, date_prevue: str) -> str:
@@ -88,6 +72,8 @@ def render(template: str, key: str, idea: dict, date_prevue: str) -> str:
         "{{ hashtags }}": idea["hashtags"],
         "{{ sequence }}": idea["sequence"],
         "{{ date_prevue }}": date_prevue,
+        "{{ duree }}": idea.get("duration", "20"),
+        "{{ shoot_notes }}": idea.get("shoot_notes", ""),
     }
     for k, v in replacements.items():
         template = template.replace(k, v)
@@ -97,10 +83,7 @@ def render(template: str, key: str, idea: dict, date_prevue: str) -> str:
 def main() -> None:
     p = argparse.ArgumentParser(description="Génère un lot de fiches de posts")
     p.add_argument("--count", type=int, default=4, help="Nombre de posts à générer")
-    p.add_argument("--seed", type=int, default=None, help="Seed aléatoire (reproductibilité)")
     a = p.parse_args()
-    if a.seed is not None:
-        random.seed(a.seed)
 
     ideas = load_ideas()
     template = TEMPLATE_PATH.read_text(encoding="utf-8")

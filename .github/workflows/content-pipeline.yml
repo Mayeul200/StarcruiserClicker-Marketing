@@ -2,9 +2,8 @@ name: Content Pipeline
 
 on:
   schedule:
-    # UTC — 18h Paris ≈ 17h UTC (heure d'été) : lot pour la semaine suivante
-    - cron: "0 17 * * 1"
-    - cron: "0 17 * * 5"
+    # UTC — 18h Paris ≈ 17h UTC (heure d'été) : fiche du jour, cadence 1 vidéo/jour
+    - cron: "0 17 * * *"
   workflow_dispatch:
 
 permissions:
@@ -25,15 +24,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Générer le lot de fiches
-        run: python scripts/generate_batch.py --count 2
+      - name: Générer la fiche du jour
+        run: python scripts/generate_batch.py --count 1
 
       - name: Construire le corps de l'issue de revue
         run: |
           {
-            echo "## Lot de contenu généré automatiquement"
-            echo
-            echo "Fiches à valider avant publication (voir \`content/postes/\`)."
+            echo "## Fiche du jour générée automatiquement"
             echo "Après validation : montage via \`scripts/build_video.py\` puis publication."
             echo
             for f in content/postes/*.md; do
@@ -48,7 +45,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TITLE="Content review — $(date -u +%Y-%m-%d)"
+          TITLE="Fiche du jour — $(date -u +%Y-%m-%d)"
           gh issue create --title "$TITLE" --body-file batch-body.md \
             --label "content-review" || \
           gh issue create --title "$TITLE" --body-file batch-body.md

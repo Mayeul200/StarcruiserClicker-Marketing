@@ -1,27 +1,36 @@
 # Calendrier éditorial — Starcruiser Clicker
 
-Cadence : **4 vidéos originales par semaine**, republicées sur YouTube Shorts **et** TikTok (4 créations, pas 8).
+Cadence : **1 vidéo par jour**, une fois toutes les vidéos créées. La série fait 10 vidéos (1 principale + 9 mécaniques), puis on passe aux variantes d'accroches.
 
-## Semaine type
+## Plan de lancement (10 jours)
 
-| Jour | Format | Idée directrice |
-|---|---|---|
-| **Lundi** | A — Progression | Accélération spectaculaire du début vers une destination lointaine |
-| **Mercredi** | B — Optimisation | Une amélioration qui change complètement la production |
-| **Vendredi** | C — Révélation | Visuel cosmique fort, puis le gameplay associé |
-| **Dimanche** | D — Coulisses/défi | Question à la communauté, avant/après, évolution du jeu |
+| Jour | Vidéo | Séquence | Durée |
+|---|---|---|---|
+| J1 | 🎬 **Principale** — trailer best-of | `main-trailer.mp4` | 30 s |
+| J2 | ⚙️ Clics | `mecanique-clics.mp4` | 20 s |
+| J3 | ⚙️ Bâtiments | `mecanique-batiments.mp4` | 20 s |
+| J4 | ⚙️ Fusée | `mecanique-fusee.mp4` | 20 s |
+| J5 | ⚙️ Voyage / expéditions | `mecanique-voyage.mp4` | 25 s |
+| J6 | ⚙️ Comètes & mini-jeux | `mecanique-cometes.mp4` | 15 s |
+| J7 | ⚙️ Contrats express | `mecanique-contrats.mp4` | 15 s |
+| J8 | ⚙️ Cartes & boosters | `mecanique-cartes.mp4` | 15 s |
+| J9 | ⚙️ Atelier Galactique | `mecanique-atelier.mp4` | 20 s |
+| J10 | ⚙️ Classement des pilotes | `mecanique-classement.mp4` | 15 s |
 
-Objectif mois 1 : **16 vidéos originales** publiées — assez pour comparer les formats.
+## Après la série
 
-## Processus hebdomadaire
+- **Variantes d'accroches** : mêmes séquences, nouveaux hooks (le prompt `prompts/generateur-post.md` en propose 5 par vidéo). Une séquence peut servir 3-4 fois avec des accroches différentes.
+- La vidéo principale peut être re-publiée avec une autre accroche après 2-3 semaines.
+- On ne crée de nouvelles séquences que si les KPI (`docs/KPI.md`) montrent qu'une mécanique intéresse particulièrement l'audience.
 
-1. **Vendredi (automatique)** — GitHub Actions génère un lot de fiches de posts et ouvre une issue de revue.
-2. **Week-end (humain)** — validation/correction des fiches ; enregistrement des séquences manquantes.
-3. **Semaine (humain)** — montage via `scripts/build_video.py`, publication planifiée (manuellement ou via API si autorisée).
-4. **Dimanche (automatique possible)** — rapport des KPI de la semaine (`docs/KPI.md`), ajustement des formats.
+## Processus
+
+1. **Automatique (quotidien)** — GitHub Actions génère la fiche du jour et ouvre une issue de revue.
+2. **Humain** — validation de la fiche, montage via `scripts/build_video.py`, publication manuelle sur YouTube Shorts + TikTok.
+3. **Hebdo** — revue des KPI (`docs/KPI.md`), ajustement des accroches.
 
 ## Historical
 
-| Semaine | Posts publiés | Meilleur format | Notes |
+| Semaine | Posts publiés | Meilleure vidéo | Notes |
 |---|---|---|---|
 | S1 | — | — | — |

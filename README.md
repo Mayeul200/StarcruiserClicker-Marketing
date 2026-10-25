@@ -9,11 +9,12 @@ Ce dépôt contient la stratégie, le calendrier éditorial, la bibliothèque d'
 ```
 docs/
   STRATEGIE.md          # Stratégie complète : réseaux, formats, objectifs
-  CALENDRIER.md         # Calendrier éditorial (4 posts/semaine)
+  CALENDRIER.md         # Calendrier de lancement (1 vidéo/jour, 10 jours)
+  TOURNAGE.md           # Guide de tournage : quoi filmer, comment, où le mettre
   KPI.md                # Indicateurs à suivre et comment les mesurer
 content/
+  ideas.json            # Bibliothèque : 1 vidéo principale + 9 vidéos mécaniques
   postes/               # Fiches de posts prêtes à produire (1 fichier = 1 post)
-  video-scripts/        # Scripts d'accroches (bank de hooks)
 assets/
   sequences/            # Séquences de gameplay brutes (matière première des vidéos)
   fonts/                # Polices pour le montage
@@ -26,7 +27,7 @@ scripts/
 templates/
   fiche-post.md         # Template de fiche de post
 .github/workflows/
-  content-pipeline.yml  # Génère un lot de contenu 2x/semaine via GitHub Actions
+  content-pipeline.yml  # Génère la fiche du jour (cadence 1 vidéo/jour) via GitHub Actions
 ```
 
 ## Démarrage rapide
@@ -46,17 +47,17 @@ python scripts/build_video.py \
 
 Le script recadre en 1080×1920, ajoute l'accroche en haut, les sous-titres et l'outro avec le nom du jeu.
 
-### 2. Générer un lot de posts
+### 2. Générer les fiches de posts
 
 ```bash
-python scripts/generate_batch.py --count 4
+python scripts/generate_batch.py --count 10
 ```
 
-Pioche des idées dans `content/ideas.json` (sans répéter), remplit les fiches via le template, et marque les idées comme utilisées.
+Génère les fiches dans l'ordre de publication (principale d'abord, puis mécaniques), remplit le template, et marque les idées comme utilisées (anti-doublon).
 
 ### 3. Automatiser via GitHub Actions
 
-Le workflow `.github/workflows/content-pipeline.yml` tourne deux fois par semaine (lundi et vendredi). Il génère un lot de fiches de posts et ouvre automatiquement une **issue de revue** avec le contenu à valider avant publication.
+Le workflow `.github/workflows/content-pipeline.yml` tourne **chaque jour à 18h** (heure de Paris). Il génère la fiche du jour et ouvre automatiquement une **issue de revue** avec le contenu à valider avant publication.
 
 ## Publication
 
