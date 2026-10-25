@@ -1,0 +1,63 @@
+name: Content Pipeline
+
+on:
+  schedule:
+    # UTC — 18h Paris ≈ 17h UTC (heure d'été) : lot pour la semaine suivante
+    - cron: "0 17 * * 1"
+    - cron: "0 17 * * 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: content-pipeline
+  cancel-in-progress: false
+
+jobs:
+  generate-batch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Générer le lot de fiches
+        run: python scripts/generate_batch.py --count 2
+
+      - name: Construire le corps de l'issue de revue
+        run: |
+          {
+            echo "## Lot de contenu généré automatiquement"
+            echo
+            echo "Fiches à valider avant publication (voir \`content/postes/\`)."
+            echo "Après validation : montage via \`scripts/build_video.py\` puis publication."
+            echo
+            for f in content/postes/*.md; do
+              echo "---"
+              echo
+              cat "$f"
+              echo
+            done
+          } > batch-body.md
+
+      - name: Ouvrir l'issue de revue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Content review — $(date -u +%Y-%m-%d)"
+          gh issue create --title "$TITLE" --body-file batch-body.md \
+            --label "content-review" || \
+          gh issue create --title "$TITLE" --body-file batch-body.md
+
+      - name: Committer les fiches générées
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/postes content/ideas.json
+          git diff --cached --quiet && echo "Rien à committer" && exit 0
+          git commit -m "content: lot de fiches généré ($(date -u +%Y-%m-%d))"
+          git push

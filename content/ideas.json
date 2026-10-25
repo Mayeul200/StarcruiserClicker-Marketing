@@ -1,0 +1,140 @@
+{
+  "format_a_progression": [
+    {
+      "id": "a1",
+      "hook": "One click. One galaxy. How far can you go? 🚀",
+      "description": "Build your space empire in Starcruiser Clicker.",
+      "cta": "Play for free: starcruiserclicker.com/?utm_source=youtube",
+      "sequence": "progression-terre-mars.mp4",
+      "hashtags": "#IdleGame #IncrementalGame #IndieGame",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "a2",
+      "hook": "POV: your first click just started a space empire 🌍",
+      "description": "From Earth to the edge of the cosmos, one click at a time.",
+      "cta": "Play free: starcruiserclicker.com/?utm_source=tiktok",
+      "sequence": "progression-premiers-clics.mp4",
+      "hashtags": "#IdleGame #SpaceGame #Gaming",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "a3",
+      "hook": "I clicked 10,000 times so you don't have to 😤🚀",
+      "description": "Watch a full run from launchpad to deep space in 20 seconds.",
+      "cta": "How far would you get? Play free: starcruiserclicker.com",
+      "sequence": "progression-run-complete.mp4",
+      "hashtags": "#IncrementalGame #ClickerGame #Satisfying",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "a4",
+      "hook": "This is what 1 hour of idle farming looks like 💰🌌",
+      "description": "Come back, spend it all, go further. That's the loop.",
+      "cta": "Try Starcruiser Clicker for free.",
+      "sequence": "progression-idle-return.mp4",
+      "hashtags": "#IdleGames #IdleClicker #Gaming",
+      "used": false,
+      "published_at": null
+    }
+  ],
+  "format_b_optimisation": [
+    {
+      "id": "b1",
+      "hook": "It starts with a few clicks… and ends with an entire space industry. 🌌",
+      "description": "Watch one tiny upgrade snowball into a full production chain.",
+      "cta": "How far would you get? Play free: starcruiserclicker.com",
+      "sequence": "optimisation-upgrade-chaine.mp4",
+      "hashtags": "#IncrementalGames #IdleClicker #Gaming",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "b2",
+      "hook": "Buying this ONE upgrade broke my economy (in a good way) 😳",
+      "description": "One purchase. Total snowball. That's the whole game.",
+      "cta": "Play Starcruiser Clicker for free.",
+      "sequence": "optimisation-achat-upgrade.mp4",
+      "hashtags": "#ClickerGame #IndieGame #Satisfying",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "b3",
+      "hook": "From one click to an entire space industry 🏭🚀",
+      "description": "Small upgrade → massive production. The snowball is real.",
+      "cta": "Play free: starcruiserclicker.com/?utm_source=youtube",
+      "sequence": "optimisation-effet-boule-neige.mp4",
+      "hashtags": "#IdleGame #IncrementalGame #IndieDev",
+      "used": false,
+      "published_at": null
+    }
+  ],
+  "format_c_revelation": [
+    {
+      "id": "c1",
+      "hook": "2.5 million light-years away. And that's just one destination. ✨",
+      "description": "Your journey through the cosmos starts here. Andromeda is waiting.",
+      "cta": "Play Starcruiser Clicker for free: starcruiserclicker.com/?utm_source=youtube",
+      "sequence": "revelation-andromede.mp4",
+      "hashtags": "#Space #IdleGame #IndieGames",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "c2",
+      "hook": "Your next destination is a black hole. Good luck. 🕳️",
+      "description": "Every galaxy in Starcruiser Clicker has its own challenge.",
+      "cta": "How far into the cosmos can you go?",
+      "sequence": "revelation-trou-noir.mp4",
+      "hashtags": "#Space #BlackHole #IdleGame",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "c3",
+      "hook": "The center of the Milky Way has never been this close 🌌",
+      "description": "Reveal → gameplay → one clear call to action.",
+      "cta": "Play free: starcruiserclicker.com",
+      "sequence": "revelation-centre-galactique.mp4",
+      "hashtags": "#MilkyWay #SpaceGame #IndieGame",
+      "used": false,
+      "published_at": null
+    }
+  ],
+  "format_d_coulisses": [
+    {
+      "id": "d1",
+      "hook": "I built a space clicker game. Here's what happens when you reach Andromeda.",
+      "description": "Dev log #1: the before/after of the farthest destination in the game.",
+      "cta": "Which destination should I add next? Tell me in the comments 👇",
+      "sequence": "coulisses-andromede-avant-apres.mp4",
+      "hashtags": "#IndieDev #DevLog #ClickerGame",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "d2",
+      "hook": "I made a game where you build your own rocket 🚀 Here's a sneak peek.",
+      "description": "Dev log: designing the ship-building system for Starcruiser Clicker.",
+      "cta": "What should the next upgrade be?",
+      "sequence": "coulisses-construction-fusee.mp4",
+      "hashtags": "#IndieGame #DevLog #Space",
+      "used": false,
+      "published_at": null
+    },
+    {
+      "id": "d3",
+      "hook": "Guess which upgrade players buy first (I was wrong) 🤔",
+      "description": "Community question + behind-the-scenes look at the game balance.",
+      "cta": "Play the game and tell me your first pick.",
+      "sequence": "coulisses-choix-upgrade.mp4",
+      "hashtags": "#IndieDev #ClickerGame #Poll",
+      "used": false,
+      "published_at": null
+    }
+  ]
+}
