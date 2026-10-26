@@ -154,10 +154,11 @@ def main() -> None:
         if clip.get("crop"):
             x1, y1, x2, y2 = clip["crop"]
             cw, ch = x2 - x1, y2 - y1
+            # la zone cropée est affichée à pleine largeur (bande centrale),
+            # et le MÊME crop flouté remplit le haut/bas -> bandes floutées
             fg_chain = (
                 f"crop={cw}:{ch}:{x1}:{y1},"
-                f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=area,"
-                f"crop={W}:{H},setsar=1"
+                f"scale={W}:-2:flags=area,setsar=1"
             )
             bg_chain = (
                 f"crop={cw}:{ch}:{x1}:{y1},"
