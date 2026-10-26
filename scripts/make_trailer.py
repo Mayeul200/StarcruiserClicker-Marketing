@@ -6,17 +6,18 @@ le CTA via des PNG générés par PIL (le ffmpeg embarqué n'a pas drawtext),
 concatène, ajoute l'outro, et produit out/main-trailer.mp4.
 """
 
-import os
 import subprocess
 import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-FF = os.environ.get(
-    "FFMPEG_PATH",
-    str(Path.home() / ".local/lib/python3.12/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2"),
-)
+try:
+    import imageio_ffmpeg
+    FF = imageio_ffmpeg.get_ffmpeg_exe()
+except Exception as e:
+    print(f"Erreur : imageio-ffmpeg introuvable. Lance : pip install imageio-ffmpeg\n{e}")
+    sys.exit(1)
 ROOT = Path(__file__).resolve().parent.parent
 SEQ = ROOT / "assets" / "sequences"
 OUT = ROOT / "out"
