@@ -1,2 +1,5 @@
 # Dépendances des scripts de production de contenu.
 # FFmpeg est requis pour scripts/build_video.py (binaire système, pas un paquet pip).
+imageio-ffmpeg
+pillow
+matplotlib
