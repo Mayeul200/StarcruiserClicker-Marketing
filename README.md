@@ -11,7 +11,7 @@ docs/
   STRATEGIE.md          # Stratégie complète : réseaux, formats, objectifs
   CALENDRIER.md         # Calendrier de lancement (1 vidéo/jour, 10 jours)
   TOURNAGE.md           # Guide de tournage : quoi filmer, comment, où le mettre
-  POSTIZ.md             # Publication automatique (Postiz, API officielles)
+  PUBLICATION.md        # Programmation native YouTube/TikTok (100 % gratuite)
   KPI.md                # Indicateurs à suivre et comment les mesurer
 content/
   ideas.json            # Bibliothèque : 1 vidéo principale + 9 vidéos mécaniques
@@ -62,7 +62,7 @@ Le workflow `.github/workflows/content-pipeline.yml` tourne **chaque jour à 18h
 
 ## Publication
 
-- **YouTube Shorts + TikTok** : publication programmée via **Postiz** (open-source, API officielles) — guide pas-à-pas dans `docs/POSTIZ.md`.
+- **YouTube Shorts + TikTok** : publication programmée via la **programmation native** des plateformes (gratuite) — guide dans `docs/PUBLICATION.md`.
 - **Reddit** : interventions humaines uniquement, dans des communautés pertinentes.
 - Les secrets (clés API éventuelles) vont dans **Settings → Secrets and variables → Actions**. Jamais dans le code.
 
