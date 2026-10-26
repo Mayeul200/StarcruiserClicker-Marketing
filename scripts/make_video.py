@@ -149,11 +149,31 @@ def main() -> None:
         speed = float(clip.get("speed", 1.0))
         big = big_png(tmp / f"big{i}.png", clip["big"], clip.get("sub"))
         part = tmp / f"part{i}.mp4"
+        # crop ciblé : [x1, y1, x2, y2] sur la source -> zoom sur une zone
+        # précise ; sinon crop 9:16 plein écran (jeu entier visible)
+        if clip.get("crop"):
+            x1, y1, x2, y2 = clip["crop"]
+            cw, ch = x2 - x1, y2 - y1
+            fg_chain = (
+                f"crop={cw}:{ch}:{x1}:{y1},"
+                f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=area,"
+                f"crop={W}:{H},setsar=1"
+            )
+            bg_chain = (
+                f"crop={cw}:{ch}:{x1}:{y1},"
+                f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=area,"
+                f"crop={W}:{H},gblur=sigma=28,eq=brightness=-0.15,setsar=1"
+            )
+        else:
+            fg_chain = f"scale={W}:-2,setsar=1"
+            bg_chain = (
+                f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=area,"
+                f"crop={W}:{H},gblur=sigma=28,eq=brightness=-0.15,setsar=1"
+            )
         fc = (
             f"[0:v]setpts={1 / speed:.6f}*PTS,split=2[s1][s2];"
-            f"[s1]scale={W}:{H}:force_original_aspect_ratio=increase:flags=area,"
-            f"crop={W}:{H},gblur=sigma=28,eq=brightness=-0.15,setsar=1[bg];"
-            f"[s2]scale={W}:-2,setsar=1[fg];"
+            f"[s1]{bg_chain}[bg];"
+            f"[s2]{fg_chain}[fg];"
             f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[b0];"
             f"[b0][1:v]overlay=0:0,setsar=1[b1];"
             f"[b1][2:v]overlay=0:0,setsar=1[b2];"
