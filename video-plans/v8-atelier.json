@@ -1,0 +1,9 @@
+{
+  "id": "v8-atelier",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {"file": "AffichageAtelierGalactique.mp4", "speed": 1.2, "big": "ATELIER", "sub": "galactique"},
+    {"file": "AchatDesUpgrades.mp4", "speed": 1.5, "big": "BONUS", "sub": "qui restent à vie"}
+  ]
+}

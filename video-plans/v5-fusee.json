@@ -1,0 +1,9 @@
+{
+  "id": "v5-fusee",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {"file": "AchatDesPiècesDeFusée.mp4", "speed": 1.5, "big": "CONSTRUIS", "sub": "ta fusée"},
+    {"file": "LiftoffAndVoyage.mp4", "speed": 1.5, "big": "DÉCOLLE", "sub": "vers l'infini"}
+  ]
+}

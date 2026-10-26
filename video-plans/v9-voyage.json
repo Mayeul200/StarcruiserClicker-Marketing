@@ -1,0 +1,9 @@
+{
+  "id": "v9-voyage",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {"file": "LiftoffAndVoyage.mp4", "speed": 1.2, "big": "11 DESTINATIONS", "sub": "de la Lune à Virgo"},
+    {"file": "LiftoffAndVoyage.mp4", "speed": 1.8, "big": "MODE INFINI", "sub": "double ton record"}
+  ]
+}

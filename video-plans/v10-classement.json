@@ -1,0 +1,9 @@
+{
+  "id": "v10-classement",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {"file": "AffichageLeaderboard.mp4", "speed": 1.0, "big": "TOP 1 ?", "sub": "classement mondial"},
+    {"file": "AffichageStatistiques.mp4", "speed": 1.5, "big": "TES STATS", "sub": "distance. vitesse. clics."}
+  ]
+}

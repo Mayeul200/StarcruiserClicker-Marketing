@@ -1,0 +1,9 @@
+{
+  "id": "v7-cartes",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {"file": "Boosters.mp4", "speed": 1.2, "big": "BOOSTERS", "sub": "ouvre. collectionne."},
+    {"file": "Boosters.mp4", "speed": 1.8, "big": "CARTES RARES", "sub": "bonus permanents"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "v1-concept",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {"file": "ClicsOnThePart.mp4", "speed": 1.5, "big": "CLIQUE", "sub": "pour gagner des Parts"},
+    {"file": "BuyBuildings.mp4", "speed": 1.5, "big": "ACHÈTE", "sub": "pour automatiser"},
+    {"file": "LiftoffAndVoyage.mp4", "speed": 1.5, "big": "ENVOLE-TOI", "sub": "explore le cosmos"}
+  ]
+}

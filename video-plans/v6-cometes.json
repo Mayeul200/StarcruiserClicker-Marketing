@@ -1,0 +1,9 @@
+{
+  "id": "v6-cometes",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {"file": "PluieDeCometes.mp4", "speed": 1.2, "big": "COMÈTES !", "sub": "clique vite"},
+    {"file": "ContratComète.mp4", "speed": 1.5, "big": "RÉCOMPENSE", "sub": "à chaque interception"}
+  ]
+}
