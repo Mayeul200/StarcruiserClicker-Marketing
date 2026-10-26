@@ -60,43 +60,51 @@ def load_font(size: int):
     return ImageFont.load_default()
 
 
+def text_with_shadow(d, xy, text, font, fill, shadow=(0, 0, 0, 220), offset=6):
+    """Texte avec ombre portée douce pour la lisibilité sur le jeu."""
+    x, y = xy
+    d.text((x + offset, y + offset), text, font=font, fill=shadow)
+    d.text((x, y), text, font=font, fill=fill)
+
+
 def cta_png(path: Path, text: str) -> Path:
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    font = load_font(46)
+    font = load_font(44)
     bbox = d.textbbox((0, 0), text, font=font)
     tw = bbox[2] - bbox[0]
-    pad = 26
-    d.rounded_rectangle(
-        [(W - tw) // 2 - pad, CTA_Y - pad // 2, (W + tw) // 2 + pad, CTA_Y + bbox[3] + pad],
-        radius=20, fill=(0, 0, 0, 160),
-    )
+    pad_x, pad_y = 34, 20
+    x1 = (W - tw) // 2 - pad_x
+    y1 = CTA_Y - pad_y
+    x2 = (W + tw) // 2 + pad_x
+    y2 = CTA_Y + bbox[3] + pad_y
+    d.rounded_rectangle([x1, y1, x2, y2], radius=y2 - y1, fill=(0, 0, 0, 170))
+    d.rounded_rectangle([x1, y1, x2, y2], radius=y2 - y1, outline=(126, 200, 255, 200), width=3)
     d.text(((W - tw) // 2, CTA_Y - bbox[1]), text, font=font, fill="white")
     img.save(path)
     return path
 
 
 def big_png(path: Path, big: str, sub: str | None) -> Path:
-    """Gros mot-clé + sous-titre, centrés vers le haut de la zone d'action."""
+    """Mot-clé style gaming : doré, contour sombre, ombre — dans la zone
+    floutée du haut, sous-titre juste au-dessus de la bande de jeu."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    font = load_font(150)
+    font = load_font(132)
     bbox = d.textbbox((0, 0), big, font=font)
     tw = bbox[2] - bbox[0]
-    pad = 30
-    d.rounded_rectangle(
-        [(W - tw) // 2 - pad, 250 - pad, (W + tw) // 2 + pad, 250 + bbox[3] + pad],
-        radius=24, fill=(126, 200, 255, 235),
-    )
-    d.text(((W - tw) // 2, 250 - bbox[1]), big, font=font, fill=(10, 14, 26))
+    cx, y = W // 2, 460
+    # ombre double + contour pour le punch
+    for off, col in ((10, (0, 0, 0, 200)), (5, (0, 0, 0, 255))):
+        d.text((cx - tw // 2 + off, y - bbox[1] + off), big, font=font, fill=col)
+    d.text((cx - tw // 2 - 3, y - bbox[1] - 3), big, font=font, fill=(255, 215, 100))
+    d.text((cx - tw // 2, y - bbox[1]), big, font=font, fill=(255, 230, 140))
     if sub:
-        f2 = load_font(52)
+        f2 = load_font(50)
         b2 = d.textbbox((0, 0), sub, font=f2)
-        d.rounded_rectangle(
-            [(W - b2[2]) // 2 - 20, 470, (W + b2[2]) // 2 + 20, 470 + b2[3] + 44],
-            radius=16, fill=(0, 0, 0, 160),
-        )
-        d.text(((W - b2[2]) // 2, 470 + 20), sub, font=f2, fill="white")
+        sw = b2[2] - b2[0]
+        sy = 640
+        text_with_shadow(d, (cx - sw // 2, sy - b2[1]), sub, f2, "white")
     img.save(path)
     return path
 

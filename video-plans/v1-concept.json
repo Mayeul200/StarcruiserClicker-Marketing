@@ -3,14 +3,41 @@
   "cta": "Play free: starcruiserclicker.com",
   "outro": true,
   "clips": [
-    {"file": "ClicsOnThePart.mp4", "speed": 1.5,
-     "big": "CLIQUE", "sub": "pour gagner des Parts",
-     "crop": [480, 0, 1440, 1080]},
-    {"file": "BuyBuildings.mp4", "speed": 1.5,
-     "big": "ACHÈTE", "sub": "pour automatiser",
-     "crop": [1320, 0, 1920, 1080]},
-    {"file": "LiftoffAndVoyage.mp4", "speed": 1.5,
-     "big": "ENVOLE-TOI", "sub": "explore le cosmos",
-     "crop": [480, 0, 1440, 1080]}
+    {
+      "file": "ClicsOnThePart.mp4",
+      "speed": 1.15,
+      "big": "CLIQUE",
+      "sub": "pour gagner des Parts",
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ]
+    },
+    {
+      "file": "BuyBuildings.mp4",
+      "speed": 1.15,
+      "big": "ACHÈTE",
+      "sub": "pour automatiser",
+      "crop": [
+        1320,
+        0,
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "LiftoffAndVoyage.mp4",
+      "speed": 1.15,
+      "big": "ENVOLE-TOI",
+      "sub": "explore le cosmos",
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ]
+    }
   ]
 }
