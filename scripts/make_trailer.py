@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Monte le trailer v2 : paysage complet + fond flouté (plus de recadrage).
+"""Trailer v3 : blur background + logo du jeu incrusté en haut.
 
-Chaque clip 16:9 est affiché EN ENTIER, pleine largeur (1080px), centré
-verticalement ; le haut et le bas sont remplis par le même clip flouté et
-assombri. L'accroche et le CTA sont incrustés dans les zones floutées.
+Objectif du trailer : raconter la boucle complète du jeu en ~36 s
+(cliquer -> produire -> construire -> décoller -> explorer),
+avec le décollage/voyage comme climax final.
 
-Les clips sont utilisés INTEGRALEMENT (début -> fin) : à toi de couper
-l'extrait au moment exact de l'action avant de le pousser dans le repo.
+Les extraits sont utilisés EN ENTIER (l'utilisateur a déjà recoupé au moment
+exact de l'action). Le logo (assets/sequences/logo2.png) est incrusté en haut
+de chaque séquence et en grand sur l'outro.
 """
 
 import subprocess
@@ -25,6 +26,7 @@ except Exception as e:
 ROOT = Path(__file__).resolve().parent.parent
 SEQ = ROOT / "assets" / "sequences"
 OUT = ROOT / "out"
+LOGO = SEQ / "logo2.png"
 
 W, H = 1080, 1920
 HOOK_LINES = ["One click. One galaxy.", "How far can you go? 🚀"]
@@ -32,6 +34,7 @@ CTA = "Play for free: starcruiserclicker.com"
 GAME = "STARCRUISER CLICKER"
 OUTRO_URL = "Play for free >> starcruiserclicker.com"
 BG_BLUE = (10, 14, 26)
+LOGO_W = 560
 
 
 def run(cmd: list[str]) -> None:
@@ -73,52 +76,69 @@ def text_png(path: Path, lines: list[tuple[str, int]], y_start: int) -> Path:
     return path
 
 
+def logo_png(path: Path, width: int = LOGO_W) -> Path:
+    """Logo redimensionné, prêt à incrustre en haut."""
+    img = Image.open(LOGO).convert("RGBA")
+    ratio = width / img.width
+    img = img.resize((width, int(img.height * ratio)), Image.LANCZOS)
+    canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    canvas.paste(img, ((W - width) // 2, 60), img)
+    canvas.save(path)
+    return path
+
+
 def main() -> None:
     OUT.mkdir(exist_ok=True)
     tmp = OUT / "_tmp"
     tmp.mkdir(exist_ok=True)
 
-    hook_png = text_png(tmp / "hook.png", [(l, 56) for l in HOOK_LINES], y_start=140)
-    cta_png = text_png(tmp / "cta.png", [(CTA, 44)], y_start=1560)
+    if not LOGO.exists():
+        print(f"Erreur : logo introuvable : {LOGO}")
+        sys.exit(1)
 
-    # Chaque clip est utilisé EN ENTIER (pas de coupe) — ajuste au besoin la
-    # durée max via le 3e element pour éviter les temps morts.
+    hook_png = text_png(tmp / "hook.png", [(l, 56) for l in HOOK_LINES], y_start=340)
+    cta_png = text_png(tmp / "cta.png", [(CTA, 44)], y_start=1560)
+    logo_png(tmp / "logo.png")
+
+    # Boucle du jeu racontée dans l'ordre, climax = décollage/voyage à la fin.
     plan = [
-        ("ClicsOnThePart.mp4", "hook", 3.0),
-        ("BuyBuildings.mp4", "cta", 4.0),
-        ("PopUpNewBuildings.mp4", "cta", 4.0),
-        ("AchatDesUpgrades.mp4", "cta", 2.6),
-        ("AchatDesPiècesDeFusée.mp4", "cta", 5.0),
-        ("LiftoffAndVoyage.mp4", "cta", 8.0),
-        ("ContratComète.mp4", "cta", 5.0),
-        ("Boosters.mp4", "cta", 6.0),
-        ("AffichageAtelierGalactique.mp4", "cta", 5.0),
-        ("AffichageStatistiques.mp4", "cta", 4.0),
-        ("AffichageLeaderboard.mp4", "cta", 2.5),
+        ("ClicsOnThePart.mp4", "hook"),
+        ("BuyBuildings.mp4", "cta"),
+        ("PopUpNewBuildings.mp4", "cta"),
+        ("AchatDesUpgrades.mp4", "cta"),
+        ("Boosters.mp4", "cta"),
+        ("ContratComète.mp4", "cta"),
+        ("PluieDeCometes.mp4", "cta"),
+        ("AchatDesPiècesDeFusée.mp4", "cta"),
+        ("AffichageAtelierGalactique.mp4", "cta"),
+        ("AffichageStatistiques.mp4", "cta"),
+        ("AffichageLeaderboard.mp4", "cta"),
+        ("LiftoffAndVoyage.mp4", "final"),
     ]
 
     parts = []
-    for i, (name, overlay, max_dur) in enumerate(plan):
+    for i, (name, overlay) in enumerate(plan):
         src = SEQ / name
         if not src.exists():
             print(f"⚠️ {name} introuvable, ignoré")
             continue
         part = tmp / f"part{i}.mp4"
-        # fond : clip remplit 1080x1920 (crop) puis flouté + assombri
-        # avant : clip entier à pleine largeur, centré verticalement
+        # inputs : 0=src, 1=cta, 2=logo (3=hook seulement sur la 1re seq)
         fc = (
             f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase:flags=area,"
             f"crop={W}:{H},gblur=sigma=28,eq=brightness=-0.15,setsar=1[bg];"
             f"[0:v]scale={W}:-2,setsar=1[fg];"
-            f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[b1]"
+            f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[b0];"
+            f"[b0][2:v]overlay=0:0,setsar=1[b1]"
         )
         if overlay == "hook":
-            fc += ";[b1][1:v]overlay[b2];[b2][2:v]overlay[vout]"
+            fc += ";[b1][3:v]overlay[b2];[b2][1:v]overlay[vout]"
             inputs = ["-i", str(hook_png), "-i", str(cta_png)]
         else:
             fc += ";[b1][1:v]overlay[vout]"
             inputs = ["-i", str(cta_png)]
-        run([FF, "-y", "-t", str(max_dur), "-i", str(src), *inputs,
+        run([FF, "-y", "-i", str(src), *inputs,
+             "-i", str(tmp / "logo.png"),
              "-filter_complex", fc, "-map", "[vout]", "-an", "-r", "30",
              "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p", str(part)])
         parts.append(part)
@@ -130,16 +150,18 @@ def main() -> None:
     run([FF, "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
          "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p", str(body)])
 
+    # Outro : fond bleu nuit, logo grand, URL
     outro_png = tmp / "outro.png"
-    img = Image.new("RGBA", (W, H), BG_BLUE + (255,))
-    d = ImageDraw.Draw(img)
-    f1 = load_font(68)
-    bbox = d.textbbox((0, 0), GAME, font=f1)
-    d.text(((W - bbox[2]) // 2, 830), GAME, font=f1, fill="white")
+    base = Image.new("RGBA", (W, H), BG_BLUE + (255,))
+    lg = Image.open(LOGO).convert("RGBA")
+    lw = 780
+    lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
+    base.paste(lg, ((W - lw) // 2, 700), lg)
+    d = ImageDraw.Draw(base)
     f2 = load_font(40)
     bbox2 = d.textbbox((0, 0), OUTRO_URL, font=f2)
-    d.text(((W - bbox2[2]) // 2, 960), OUTRO_URL, font=f2, fill=(126, 200, 255))
-    img.convert("RGB").save(outro_png)
+    d.text(((W - bbox2[2]) // 2, 1000), OUTRO_URL, font=f2, fill=(126, 200, 255))
+    base.convert("RGB").save(outro_png)
 
     outro = tmp / "outro.mp4"
     run([FF, "-y", "-loop", "1", "-t", "2.5", "-i", str(outro_png),
