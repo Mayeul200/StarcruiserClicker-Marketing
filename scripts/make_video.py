@@ -97,7 +97,15 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
     """Mot-clé doré + sous-titre, pour apparition animée (fade+zoom)."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    font = load_font(132)
+    # taille auto : le texte ne doit jamais dépasser ~92% de la largeur
+    size = 132
+    while size > 40:
+        f = load_font(size)
+        bb = d.textbbox((0, 0), big, font=f)
+        if bb[2] - bb[0] <= int(W * 0.92):
+            break
+        size -= 8
+    font = load_font(size)
     bbox = d.textbbox((0, 0), big, font=font)
     tw = bbox[2] - bbox[0]
     cx, y = W // 2, KEYWORD_Y
@@ -200,6 +208,10 @@ def main() -> None:
     # PNG transparent 1x1 pour les clips sans texte (input toujours présent)
     blank = tmp / "blank.png"
     Image.new("RGBA", (1, 1), (0, 0, 0, 0)).save(blank)
+    # hook plein écran (optionnel, plan["hook"]) : gros texte au tout début
+    hook_png_file = None
+    if plan.get("hook"):
+        hook_png_file = big_png(tmp / "hook.png", plan["hook"], plan.get("hook_sub"))
     parts = []
     for i, clip in enumerate(clips):
         src = SEQ / clip["file"]
@@ -211,6 +223,12 @@ def main() -> None:
         big = big_png(tmp / f"big{i}.png", clip["big"], clip.get("sub")) if has_text else blank
         steps = steps_png(tmp / f"steps{i}.png", n, clip.get("progress", i + 1))
         part = tmp / f"part{i}.mp4"
+        # hook plein écran sur la 1re séquence (remplace son mot-clé)
+        hook_dur = 0.0
+        if i == 0 and hook_png_file:
+            big = hook_png_file
+            hook_dur = float(plan.get("hook_dur", 1.2))
+            has_text = True  # le hook EST le texte de la séquence
 
         if clip.get("crop"):
             x1, y1, x2, y2 = clip["crop"]
@@ -243,9 +261,15 @@ def main() -> None:
             f"y='ih/2-(ih/zoom/2)':d=1:s={W}x{H}:fps={FPS},setsar=1"
         )
         # apparition du mot-clé : fondu d'entrée (simple et fiable)
-        big_anim = (
-            f"[1:v]format=rgba,fade=t=in:st=0:d={TXT_ANIM_D}:alpha=1[txt]"
-        )
+        if hook_dur > 0:
+            big_anim = (
+                f"[1:v]format=rgba,fade=t=in:st=0:d=0.15:alpha=1,"
+                f"fade=t=out:st={hook_dur - 0.15:.2f}:d=0.15:alpha=1[txt]"
+            )
+        else:
+            big_anim = (
+                f"[1:v]format=rgba,fade=t=in:st=0:d={TXT_ANIM_D}:alpha=1[txt]"
+            )
         # punch zoom en début de séquence puis Ken Burns continu
         zoom_expr = f"if(lt(on,8),1.08-0.01*on,min(1+0.00015*on,{KB_ZOOM}))"
         punch = (

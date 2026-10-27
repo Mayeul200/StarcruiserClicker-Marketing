@@ -1,0 +1,66 @@
+{
+  "id": "v1a-baseline",
+  "cta": "Play free: starcruiserclicker.com",
+  "outro": true,
+  "clips": [
+    {
+      "file": "LiftoffAndVoyage.mp4",
+      "speed": 1.0,
+      "max": 0.6,
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ]
+    },
+    {
+      "file": "ClicsOnThePart.mp4",
+      "speed": 1.3,
+      "big": "CLICK",
+      "sub": "to earn Parts",
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ]
+    },
+    {
+      "file": "BuyBuildings.mp4",
+      "speed": 1.3,
+      "big": "BUY",
+      "sub": "to automate production",
+      "crop": [
+        1320,
+        0,
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "AchatDesPiècesDeFusée.mp4",
+      "speed": 1.3,
+      "big": "BUILD",
+      "sub": "your rocket piece by piece",
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ]
+    },
+    {
+      "file": "LiftoffAndVoyage.mp4",
+      "speed": 1.0,
+      "big": "TAKE OFF",
+      "sub": "explore the cosmos",
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ]
+    }
+  ]
+}
