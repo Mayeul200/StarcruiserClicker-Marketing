@@ -161,6 +161,11 @@ def outro_png(path: Path) -> Path:
     lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
     base.paste(lg, ((W - lw) // 2, 720), lg)
     d = ImageDraw.Draw(base)
+    fq = load_font(64)
+    q = "How far will YOU go?"
+    bq = d.textbbox((0, 0), q, font=fq)
+    d.text(((W - bq[2]) // 2 + 5, 555 + 5), q, font=fq, fill=(0, 0, 0))
+    d.text(((W - bq[2]) // 2, 555), q, font=fq, fill=(255, 215, 100))
     f2 = load_font(42)
     text = "Play free >> starcruiserclicker.com"
     b = d.textbbox((0, 0), text, font=f2)
@@ -192,13 +197,19 @@ def main() -> None:
 
     clips = [c for c in plan["clips"] if (SEQ / c["file"]).exists()]
     n = len(clips)
+    # PNG transparent 1x1 pour les clips sans texte (input toujours présent)
+    blank = tmp / "blank.png"
+    Image.new("RGBA", (1, 1), (0, 0, 0, 0)).save(blank)
     parts = []
     for i, clip in enumerate(clips):
         src = SEQ / clip["file"]
         speed = float(clip.get("speed", 1.0))
         dur = probe_duration(src) / speed
-        big = big_png(tmp / f"big{i}.png", clip["big"], clip.get("sub"))
-        steps = steps_png(tmp / f"steps{i}.png", n, i + 1)
+        if clip.get("max"):
+            dur = min(dur, float(clip["max"]))
+        has_text = bool(clip.get("big"))
+        big = big_png(tmp / f"big{i}.png", clip["big"], clip.get("sub")) if has_text else blank
+        steps = steps_png(tmp / f"steps{i}.png", n, clip.get("progress", i + 1))
         part = tmp / f"part{i}.mp4"
 
         if clip.get("crop"):
@@ -235,16 +246,31 @@ def main() -> None:
         big_anim = (
             f"[1:v]format=rgba,fade=t=in:st=0:d={TXT_ANIM_D}:alpha=1[txt]"
         )
+        # punch zoom en début de séquence puis Ken Burns continu
+        zoom_expr = f"if(lt(on,8),1.08-0.01*on,min(1+0.00015*on,{KB_ZOOM}))"
+        punch = (
+            f"scale={W * 2}:{H * 2}:flags=area,"
+            f"zoompan=z='{zoom_expr}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
+            f":d=1:s={W}x{H}:fps={FPS},setsar=1"
+        )
+        if has_text:
+            txt_overlay = f"[b0][txt]overlay=0:0[b1];[b1][2:v]overlay=0:0[b2];"
+            last = "[b2]"
+        else:
+            txt_overlay = ""
+            last = "[b0]"
         fc = (
             f"[0:v]setpts={1 / speed:.6f}*PTS,split=2[s1][s2];"
             f"[s1]{bg_chain}[bg];"
             f"[s2]{fg_chain}[fg];"
             f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,{vignette_chain()}[b0];"
-            f"{big_anim};"
-            f"[b0][txt]overlay=0:0[b1];"
-            f"[b1][2:v]overlay=0:0[b2];"
-            f"[b2][3:v]overlay=0:0[b3];"
-            f"[b3][4:v]overlay=0:0,format=yuv420p[vout]"
+            + (f"{big_anim};" if has_text else "")
+            + txt_overlay
+            + f"{last}[3:v]overlay=0:0[bx];"
+            f"[bx][4:v]overlay=0:0,"
+            f"{punch},"
+            f"fade=t=in:st=0:d=0.08:color=white,"
+            f"format=yuv420p[vout]"
         )
         run([FF, "-y", "-i", str(src),
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(big),
@@ -257,32 +283,12 @@ def main() -> None:
         parts.append(part)
         print(f"✅ {clip['file']}")
 
-    # assemblage avec crossfades entre séquences
-    inputs = []
-    for p in parts:
-        inputs += ["-i", str(p)]
-    if len(parts) == 1:
-        body = tmp / "body.mp4"
-        run([FF, "-y", *inputs, "-map", "0:v", "-c:v", "libx264",
-             "-preset", "fast", "-pix_fmt", "yuv420p", str(body)])
-    else:
-        durs = [probe_duration(p) for p in parts]
-        fc_parts = []
-        prev = "[0:v]"
-        # longueur accumulée de la timeline au fil des xfades :
-        # L_k = L_{k-1} + dur_k - D ; offset_k = L_{k-1} - D
-        length = durs[0]
-        for k in range(1, len(parts)):
-            out_label = f"[x{k}]" if k < len(parts) - 1 else "[xlast]"
-            fc_parts.append(
-                f"{prev}[{k}:v]xfade=transition=fade:duration={XFADE_D}:offset={length - XFADE_D:.3f}{out_label}"
-            )
-            prev = out_label
-            length += durs[k] - XFADE_D
-        body = tmp / "body.mp4"
-        run([FF, "-y", *inputs, "-filter_complex", ";".join(fc_parts),
-             "-map", "[xlast]", "-c:v", "libx264", "-preset", "fast",
-             "-pix_fmt", "yuv420p", str(body)])
+    # assemblage : cuts secs (les flashs blancs marquent chaque étape)
+    concat = tmp / "list.txt"
+    concat.write_text("".join(f"file '{p}'\n" for p in parts))
+    body = tmp / "body.mp4"
+    run([FF, "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
+         "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p", str(body)])
 
     inputs2 = ["-i", str(body)]
     fc2 = "[0:v]copy[v]"
