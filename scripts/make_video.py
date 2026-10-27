@@ -41,7 +41,8 @@ LOGO = SEQ / "logo2.png"
 
 W, H = 1080, 1920
 BG_BLUE = (10, 14, 26)
-CTA_Y = 1580
+CTA_Y = 1560
+LOGO_Y = 1700
 
 
 def run(cmd: list[str]) -> None:
@@ -93,7 +94,7 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
     font = load_font(132)
     bbox = d.textbbox((0, 0), big, font=font)
     tw = bbox[2] - bbox[0]
-    cx, y = W // 2, 460
+    cx, y = W // 2, 330
     # ombre double + contour pour le punch
     for off, col in ((10, (0, 0, 0, 200)), (5, (0, 0, 0, 255))):
         d.text((cx - tw // 2 + off, y - bbox[1] + off), big, font=font, fill=col)
@@ -103,7 +104,7 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
         f2 = load_font(50)
         b2 = d.textbbox((0, 0), sub, font=f2)
         sw = b2[2] - b2[0]
-        sy = 640
+        sy = 510
         text_with_shadow(d, (cx - sw // 2, sy - b2[1]), sub, f2, "white")
     img.save(path)
     return path
@@ -111,10 +112,10 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
 
 def logo_png(path: Path) -> Path:
     img = Image.open(LOGO).convert("RGBA")
-    width = 540
+    width = 480
     img = img.resize((width, int(img.height * width / img.width)), Image.LANCZOS)
     canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    canvas.paste(img, ((W - width) // 2, 60), img)
+    canvas.paste(img, ((W - width) // 2, LOGO_Y), img)
     canvas.save(path)
     return path
 
