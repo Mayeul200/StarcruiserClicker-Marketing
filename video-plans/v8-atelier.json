@@ -5,13 +5,13 @@
   "clips": [
     {
       "file": "AffichageAtelierGalactique.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "WORKSHOP",
       "sub": "galactic"
     },
     {
       "file": "AchatDesUpgrades.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "BONUSES",
       "sub": "that last forever"
     }

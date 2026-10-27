@@ -5,7 +5,7 @@
   "clips": [
     {
       "file": "ClicsOnThePart.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "CLICK",
       "sub": "to earn Parts",
       "crop": [
@@ -17,7 +17,7 @@
     },
     {
       "file": "BuyBuildings.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "BUY",
       "sub": "to automate production",
       "crop": [
@@ -29,7 +29,7 @@
     },
     {
       "file": "AchatDesPiècesDeFusée.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "BUILD",
       "sub": "your rocket piece by piece",
       "crop": [
@@ -41,7 +41,7 @@
     },
     {
       "file": "LiftoffAndVoyage.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "TAKE OFF",
       "sub": "explore the cosmos",
       "crop": [

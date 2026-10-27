@@ -5,13 +5,13 @@
   "clips": [
     {
       "file": "BuyBuildings.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "BUY",
       "sub": "to automate production"
     },
     {
       "file": "PopUpNewBuildings.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "UNLOCK",
       "sub": "14 unique buildings"
     }

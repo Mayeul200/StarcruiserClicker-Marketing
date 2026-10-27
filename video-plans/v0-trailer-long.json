@@ -5,67 +5,67 @@
   "clips": [
     {
       "file": "ClicsOnThePart.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "CLICK",
       "sub": "to earn Parts"
     },
     {
       "file": "BuyBuildings.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "BUILD",
       "sub": "your rocket piece by piece"
     },
     {
       "file": "PopUpNewBuildings.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "UNLOCK",
       "sub": "14 buildings"
     },
     {
       "file": "AchatDesUpgrades.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "UPGRADE",
       "sub": "tout augmente"
     },
     {
       "file": "Boosters.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "BOOSTERS",
       "sub": "open. collect."
     },
     {
       "file": "ContratComète.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "CONTRATS",
       "sub": "30 secondes de folie"
     },
     {
       "file": "PluieDeCometes.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "COMÈTES",
       "sub": "intercepte-les"
     },
     {
       "file": "AchatDesPiècesDeFusée.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "BUILD",
       "sub": "your rocket piece by piece"
     },
     {
       "file": "AffichageAtelierGalactique.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "WORKSHOP",
       "sub": "galactic"
     },
     {
       "file": "AffichageLeaderboard.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "CLASSEMENT",
       "sub": "compete mondial"
     },
     {
       "file": "LiftoffAndVoyage.mp4",
-      "speed": 1.15,
+      "speed": 1.3,
       "big": "EXPLORE",
       "sub": "11 destinations"
     }

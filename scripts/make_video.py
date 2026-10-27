@@ -42,7 +42,7 @@ LOGO = SEQ / "logo2.png"
 W, H = 1080, 1920
 BG_BLUE = (10, 14, 26)
 CTA_Y = 1615
-FG_H = 1215  # hauteur de la bande de jeu
+FG_H = 1060  # hauteur de la bande de jeu
 LOGO_Y = 1770
 
 
@@ -95,7 +95,7 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
     font = load_font(132)
     bbox = d.textbbox((0, 0), big, font=font)
     tw = bbox[2] - bbox[0]
-    cx, y = W // 2, 250
+    cx, y = W // 2, 150
     # ombre double + contour pour le punch
     for off, col in ((10, (0, 0, 0, 200)), (5, (0, 0, 0, 255))):
         d.text((cx - tw // 2 + off, y - bbox[1] + off), big, font=font, fill=col)
@@ -105,7 +105,7 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
         f2 = load_font(50)
         b2 = d.textbbox((0, 0), sub, font=f2)
         sw = b2[2] - b2[0]
-        sy = 430
+        sy = 330
         text_with_shadow(d, (cx - sw // 2, sy - b2[1]), sub, f2, "white")
     img.save(path)
     return path
