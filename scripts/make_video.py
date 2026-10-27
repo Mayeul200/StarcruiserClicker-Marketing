@@ -42,8 +42,8 @@ LOGO = SEQ / "logo2.png"
 W, H = 1080, 1920
 BG_BLUE = (10, 14, 26)
 CTA_Y = 1615
-FG_H = 1060  # hauteur de la bande de jeu
-LOGO_Y = 1770
+FG_H = 1166  # hauteur de la bande de jeu (+10%)
+LOGO_Y = 1700
 
 
 def run(cmd: list[str]) -> None:
