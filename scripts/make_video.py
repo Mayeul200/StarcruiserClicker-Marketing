@@ -115,21 +115,31 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
 
 
 def steps_png(path: Path, total: int, current: int) -> Path:
-    """Barre de progression : pastilles remplies jusqu'à l'étape courante."""
+    """Vraie barre de progression : track fin + remplissage continu doré.
+
+    Chaque séquence génère une frame de remplissage proportionnelle —
+    les frames successives des clips donnent une progression fluide.
+    """
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    r = 10
-    gap = 28
-    total_w = total * (2 * r) + (total - 1) * gap
-    x = (W - total_w) // 2
-    y = 80
-    for i in range(total):
-        cx = x + r + i * (2 * r + gap)
-        if i < current:
-            d.ellipse([cx - r, y - r, cx + r, y + r], fill=(255, 215, 100, 255))
-        else:
-            d.ellipse([cx - r, y - r, cx + r, y + r],
-                      fill=(255, 255, 255, 70), outline=(255, 255, 255, 150), width=2)
+    bar_w = 760
+    bar_h = 10
+    x1 = (W - bar_w) // 2
+    y = 76
+    # track de fond (arrondi, translucide)
+    d.rounded_rectangle([x1, y, x1 + bar_w, y + bar_h], radius=bar_h // 2,
+                        fill=(255, 255, 255, 60))
+    # remplissage doré jusqu'à l'étape courante (dégradé ambré)
+    fill_w = int(bar_w * current / total)
+    if fill_w > 0:
+        for k in range(fill_w):
+            t = k / max(fill_w - 1, 1)
+            col = (int(255 - 30 * t), int(215 - 15 * t), int(100 + 40 * t), 255)
+            d.line([x1 + k, y + 1, x1 + k, y + bar_h - 1], fill=col)
+    # petit point lumineux au bout du remplissage
+    if fill_w > 4:
+        d.ellipse([x1 + fill_w - 5, y - 1, x1 + fill_w + 5, y + bar_h + 1],
+                  fill=(255, 240, 180, 255))
     img.save(path)
     return path
 
