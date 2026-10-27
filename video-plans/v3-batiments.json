@@ -3,7 +3,17 @@
   "cta": "Play free: starcruiserclicker.com",
   "outro": true,
   "clips": [
-    {"file": "BuyBuildings.mp4", "speed": 1.5, "big": "ACHÈTE", "sub": "tes bâtiments"},
-    {"file": "PopUpNewBuildings.mp4", "speed": 1.2, "big": "DÉBLOQUE", "sub": "14 bâtiments uniques"}
+    {
+      "file": "BuyBuildings.mp4",
+      "speed": 1.15,
+      "big": "BUY",
+      "sub": "to automate production"
+    },
+    {
+      "file": "PopUpNewBuildings.mp4",
+      "speed": 1.15,
+      "big": "UNLOCK",
+      "sub": "14 unique buildings"
+    }
   ]
 }

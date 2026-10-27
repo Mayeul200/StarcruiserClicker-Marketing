@@ -3,16 +3,71 @@
   "cta": "Play free: starcruiserclicker.com",
   "outro": true,
   "clips": [
-    {"file": "ClicsOnThePart.mp4", "speed": 1.2, "big": "CLICK", "sub": "gagne des Parts"},
-    {"file": "BuyBuildings.mp4", "speed": 1.2, "big": "BUILD", "sub": "automatise la production"},
-    {"file": "PopUpNewBuildings.mp4", "speed": 1.2, "big": "UNLOCK", "sub": "14 bâtiments"},
-    {"file": "AchatDesUpgrades.mp4", "speed": 1.2, "big": "UPGRADE", "sub": "tout augmente"},
-    {"file": "Boosters.mp4", "speed": 1.5, "big": "BOOSTERS", "sub": "ouvre des cartes"},
-    {"file": "ContratComète.mp4", "speed": 1.5, "big": "CONTRATS", "sub": "30 secondes de folie"},
-    {"file": "PluieDeCometes.mp4", "speed": 1.5, "big": "COMÈTES", "sub": "intercepte-les"},
-    {"file": "AchatDesPiècesDeFusée.mp4", "speed": 1.5, "big": "BUILD", "sub": "ta fusée pièce par pièce"},
-    {"file": "AffichageAtelierGalactique.mp4", "speed": 1.5, "big": "ATELIER", "sub": "bonus permanents"},
-    {"file": "AffichageLeaderboard.mp4", "speed": 1.2, "big": "CLASSEMENT", "sub": "compete mondial"},
-    {"file": "LiftoffAndVoyage.mp4", "speed": 1.2, "big": "EXPLORE", "sub": "11 destinations"}
+    {
+      "file": "ClicsOnThePart.mp4",
+      "speed": 1.15,
+      "big": "CLICK",
+      "sub": "to earn Parts"
+    },
+    {
+      "file": "BuyBuildings.mp4",
+      "speed": 1.15,
+      "big": "BUILD",
+      "sub": "your rocket piece by piece"
+    },
+    {
+      "file": "PopUpNewBuildings.mp4",
+      "speed": 1.15,
+      "big": "UNLOCK",
+      "sub": "14 buildings"
+    },
+    {
+      "file": "AchatDesUpgrades.mp4",
+      "speed": 1.15,
+      "big": "UPGRADE",
+      "sub": "tout augmente"
+    },
+    {
+      "file": "Boosters.mp4",
+      "speed": 1.15,
+      "big": "BOOSTERS",
+      "sub": "open. collect."
+    },
+    {
+      "file": "ContratComète.mp4",
+      "speed": 1.15,
+      "big": "CONTRATS",
+      "sub": "30 secondes de folie"
+    },
+    {
+      "file": "PluieDeCometes.mp4",
+      "speed": 1.15,
+      "big": "COMÈTES",
+      "sub": "intercepte-les"
+    },
+    {
+      "file": "AchatDesPiècesDeFusée.mp4",
+      "speed": 1.15,
+      "big": "BUILD",
+      "sub": "your rocket piece by piece"
+    },
+    {
+      "file": "AffichageAtelierGalactique.mp4",
+      "speed": 1.15,
+      "big": "WORKSHOP",
+      "sub": "galactic"
+    },
+    {
+      "file": "AffichageLeaderboard.mp4",
+      "speed": 1.15,
+      "big": "CLASSEMENT",
+      "sub": "compete mondial"
+    },
+    {
+      "file": "LiftoffAndVoyage.mp4",
+      "speed": 1.15,
+      "big": "EXPLORE",
+      "sub": "11 destinations"
+    }
   ]
 }

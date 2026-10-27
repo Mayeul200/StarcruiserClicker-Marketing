@@ -3,7 +3,17 @@
   "cta": "Play free: starcruiserclicker.com",
   "outro": true,
   "clips": [
-    {"file": "AchatDesPiècesDeFusée.mp4", "speed": 1.5, "big": "CONSTRUIS", "sub": "ta fusée"},
-    {"file": "LiftoffAndVoyage.mp4", "speed": 1.5, "big": "DÉCOLLE", "sub": "vers l'infini"}
+    {
+      "file": "AchatDesPiècesDeFusée.mp4",
+      "speed": 1.15,
+      "big": "BUILD",
+      "sub": "your rocket piece by piece"
+    },
+    {
+      "file": "LiftoffAndVoyage.mp4",
+      "speed": 1.15,
+      "big": "LIFT OFF",
+      "sub": "to infinity"
+    }
   ]
 }

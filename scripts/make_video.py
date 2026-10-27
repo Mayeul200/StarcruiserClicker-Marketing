@@ -41,8 +41,9 @@ LOGO = SEQ / "logo2.png"
 
 W, H = 1080, 1920
 BG_BLUE = (10, 14, 26)
-CTA_Y = 1560
-LOGO_Y = 1700
+CTA_Y = 1615
+FG_H = 1215  # hauteur de la bande de jeu
+LOGO_Y = 1770
 
 
 def run(cmd: list[str]) -> None:
@@ -94,7 +95,7 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
     font = load_font(132)
     bbox = d.textbbox((0, 0), big, font=font)
     tw = bbox[2] - bbox[0]
-    cx, y = W // 2, 330
+    cx, y = W // 2, 250
     # ombre double + contour pour le punch
     for off, col in ((10, (0, 0, 0, 200)), (5, (0, 0, 0, 255))):
         d.text((cx - tw // 2 + off, y - bbox[1] + off), big, font=font, fill=col)
@@ -104,7 +105,7 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
         f2 = load_font(50)
         b2 = d.textbbox((0, 0), sub, font=f2)
         sw = b2[2] - b2[0]
-        sy = 510
+        sy = 430
         text_with_shadow(d, (cx - sw // 2, sy - b2[1]), sub, f2, "white")
     img.save(path)
     return path
@@ -112,7 +113,7 @@ def big_png(path: Path, big: str, sub: str | None) -> Path:
 
 def logo_png(path: Path) -> Path:
     img = Image.open(LOGO).convert("RGBA")
-    width = 480
+    width = 580
     img = img.resize((width, int(img.height * width / img.width)), Image.LANCZOS)
     canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     canvas.paste(img, ((W - width) // 2, LOGO_Y), img)
@@ -167,7 +168,8 @@ def main() -> None:
             # et le MÊME crop flouté remplit le haut/bas -> bandes floutées
             fg_chain = (
                 f"crop={cw}:{ch}:{x1}:{y1},"
-                f"scale={W}:-2:flags=area,setsar=1"
+                f"scale={W}:{FG_H}:force_original_aspect_ratio=increase:flags=area,"
+                f"crop={W}:{FG_H},setsar=1"
             )
             bg_chain = (
                 f"crop={cw}:{ch}:{x1}:{y1},"
@@ -175,7 +177,10 @@ def main() -> None:
                 f"crop={W}:{H},gblur=sigma=28,eq=brightness=-0.15,setsar=1"
             )
         else:
-            fg_chain = f"scale={W}:-2,setsar=1"
+            fg_chain = (
+                f"scale={W}:-2:flags=area,"
+                f"pad={W}:{FG_H}:(ow-iw)/2:(oh-ih)/2:color=0x0a0e1a,setsar=1"
+            )
             bg_chain = (
                 f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=area,"
                 f"crop={W}:{H},gblur=sigma=28,eq=brightness=-0.15,setsar=1"
