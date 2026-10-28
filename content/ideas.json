@@ -35,7 +35,7 @@
       "hashtags": "#IdleGame #IncrementalGame #IndieGame",
       "duration": "20",
       "shoot_notes": "Défilement de la liste des bâtiments de l'Atelier jusqu'à la Forge du Void (débloquer les suivants si nécessaire via save avancée), achat en rafale, compteur de production/s qui explose.",
-      "used": false,
+      "used": true,
       "published_at": null
     },
     {
