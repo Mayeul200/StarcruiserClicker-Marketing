@@ -9,13 +9,14 @@
     {
       "file": "LiftoffAndVoyage.mp4",
       "speed": 1.0,
-      "max": 0.6,
+      "max": 0.4,
       "crop": [
         480,
         0,
         1440,
         1080
-      ]
+      ],
+      "start": 5.0
     },
     {
       "file": "ClicsOnThePart.mp4",

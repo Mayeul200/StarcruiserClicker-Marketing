@@ -296,7 +296,9 @@ def main() -> None:
             f"fade=t=in:st=0:d=0.08:color=white,"
             f"format=yuv420p[vout]"
         )
-        run([FF, "-y", "-i", str(src),
+        start = float(clip.get("start", 0.0))
+        src_args = ["-ss", f"{start:.3f}", "-i", str(src)] if start else ["-i", str(src)]
+        run([FF, "-y", *src_args,
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(big),
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(steps),
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(cta),
