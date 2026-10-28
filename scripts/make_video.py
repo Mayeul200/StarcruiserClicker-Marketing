@@ -223,12 +223,13 @@ def main() -> None:
         big = big_png(tmp / f"big{i}.png", clip["big"], clip.get("sub")) if has_text else blank
         steps = steps_png(tmp / f"steps{i}.png", n, clip.get("progress", i + 1))
         part = tmp / f"part{i}.mp4"
-        # hook plein écran sur la 1re séquence (remplace son mot-clé)
+        # hook plein écran sur la 1re séquence, EN PLUS du mot-clé du clip
+        # (le hook fade out, puis le mot-clé de la séquence prend le relais)
         hook_dur = 0.0
+        hook_input = None
         if i == 0 and hook_png_file:
-            big = hook_png_file
             hook_dur = float(plan.get("hook_dur", 1.2))
-            has_text = True  # le hook EST le texte de la séquence
+            hook_input = hook_png_file
 
         if clip.get("crop"):
             x1, y1, x2, y2 = clip["crop"]
@@ -262,14 +263,20 @@ def main() -> None:
         )
         # apparition du mot-clé : fondu d'entrée (simple et fiable)
         if hook_dur > 0:
+            # mot-clé de la séquence : apparaît quand le hook disparaît
             big_anim = (
-                f"[1:v]format=rgba,fade=t=in:st=0:d=0.15:alpha=1,"
-                f"fade=t=out:st={hook_dur - 0.15:.2f}:d=0.15:alpha=1[txt]"
+                f"[1:v]format=rgba,fade=t=in:st={hook_dur - 0.1:.2f}:d=0.2:alpha=1[txt]"
+            )
+            # hook : plein écran au tout début puis fade out
+            hook_anim = (
+                f"[5:v]format=rgba,fade=t=in:st=0:d=0.1:alpha=1,"
+                f"fade=t=out:st={hook_dur - 0.15:.2f}:d=0.15:alpha=1[hook]"
             )
         else:
             big_anim = (
                 f"[1:v]format=rgba,fade=t=in:st=0:d={TXT_ANIM_D}:alpha=1[txt]"
             )
+            hook_anim = None
         # punch zoom en début de séquence puis Ken Burns continu
         zoom_expr = f"if(lt(on,8),1.08-0.01*on,min(1+0.00015*on,{KB_ZOOM}))"
         punch = (
@@ -283,6 +290,11 @@ def main() -> None:
         else:
             txt_overlay = ""
             last = "[b0]"
+        hook_chain = ""
+        hook_ref = last
+        if hook_input is not None:
+            hook_chain = f"{hook_anim};{last}[hook]overlay=0:0[hh];"
+            hook_ref = "[hh]"
         fc = (
             f"[0:v]setpts={1 / speed:.6f}*PTS,split=2[s1][s2];"
             f"[s1]{bg_chain}[bg];"
@@ -290,7 +302,8 @@ def main() -> None:
             f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,{vignette_chain()}[b0];"
             + (f"{big_anim};" if has_text else "")
             + txt_overlay
-            + f"{last}[3:v]overlay=0:0[bx];"
+            + hook_chain
+            + f"{hook_ref}[3:v]overlay=0:0[bx];"
             f"[bx][4:v]overlay=0:0,"
             f"{punch},"
             f"fade=t=in:st=0:d=0.08:color=white,"
@@ -298,11 +311,13 @@ def main() -> None:
         )
         start = float(clip.get("start", 0.0))
         src_args = ["-ss", f"{start:.3f}", "-i", str(src)] if start else ["-i", str(src)]
+        hook_src = hook_input if hook_input is not None else blank
         run([FF, "-y", *src_args,
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(big),
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(steps),
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(cta),
              "-loop", "1", "-t", f"{dur:.3f}", "-i", str(logo),
+             "-loop", "1", "-t", f"{dur:.3f}", "-i", str(hook_src),
              "-filter_complex", fc, "-map", "[vout]", "-an", "-r", str(FPS),
              "-t", f"{dur:.3f}",
              "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p", str(part)])

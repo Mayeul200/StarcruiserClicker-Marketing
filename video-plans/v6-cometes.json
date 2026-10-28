@@ -6,14 +6,28 @@
     {
       "file": "PluieDeCometes.mp4",
       "speed": 1.3,
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ],
       "big": "COMETS!",
-      "sub": "click fast"
+      "sub": "catch them all"
     },
     {
       "file": "ContratComète.mp4",
       "speed": 1.3,
-      "big": "REWARDS",
-      "sub": "on every catch"
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ],
+      "big": "BIG REWARDS",
+      "sub": "for fast fingers"
     }
-  ]
+  ],
+  "hook": "They fall. You catch. You win.",
+  "hook_dur": 1.2
 }

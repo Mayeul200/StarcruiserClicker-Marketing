@@ -5,15 +5,30 @@
   "clips": [
     {
       "file": "AffichageLeaderboard.mp4",
-      "speed": 1.3,
+      "speed": 1.0,
+      "crop": [
+        240,
+        0,
+        1680,
+        1080
+      ],
       "big": "TOP 1?",
-      "sub": "world ranking"
+      "sub": "the world ranking"
     },
     {
       "file": "AffichageStatistiques.mp4",
       "speed": 1.3,
+      "crop": [
+        240,
+        0,
+        1680,
+        1080
+      ],
       "big": "YOUR STATS",
       "sub": "distance. speed. clicks."
     }
-  ]
+  ],
+  "hook": "Most clickers are solo.",
+  "hook_sub": "this one has a world ranking",
+  "hook_dur": 0.8
 }

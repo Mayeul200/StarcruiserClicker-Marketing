@@ -6,14 +6,29 @@
     {
       "file": "AchatDesUpgrades.mp4",
       "speed": 1.3,
-      "big": "UPGRADES",
-      "sub": "buy. progress."
+      "crop": [
+        1320,
+        0,
+        1920,
+        1080
+      ],
+      "big": "UPGRADE",
+      "sub": "multiply everything"
     },
     {
-      "file": "BuyBuildings.mp4",
-      "speed": 1.3,
-      "big": "×2 PRODUCTION",
-      "sub": "at every milestone"
+      "file": "AchatDesUpgrades.mp4",
+      "speed": 1.6,
+      "crop": [
+        1320,
+        0,
+        1920,
+        1080
+      ],
+      "big": "×2, ×3, ×10",
+      "sub": "each one stacks up",
+      "start": 1.0
     }
-  ]
+  ],
+  "hook": "This is how clickers scale.",
+  "hook_dur": 1.2
 }

@@ -5,15 +5,29 @@
   "clips": [
     {
       "file": "AffichageAtelierGalactique.mp4",
-      "speed": 1.3,
+      "speed": 1.2,
+      "crop": [
+        240,
+        0,
+        1680,
+        1080
+      ],
       "big": "WORKSHOP",
-      "sub": "galactic"
+      "sub": "your permanent bonuses"
     },
     {
       "file": "AchatDesUpgrades.mp4",
       "speed": 1.3,
-      "big": "BONUSES",
-      "sub": "that last forever"
+      "crop": [
+        1320,
+        0,
+        1920,
+        1080
+      ],
+      "big": "STACK THEM",
+      "sub": "bonuses last forever"
     }
-  ]
+  ],
+  "hook": "Everything you keep. Forever.",
+  "hook_dur": 1.2
 }

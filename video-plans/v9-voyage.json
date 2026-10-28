@@ -5,15 +5,30 @@
   "clips": [
     {
       "file": "LiftoffAndVoyage.mp4",
-      "speed": 1.3,
-      "big": "11 DESTINATIONS",
-      "sub": "from the Moon to Virgo"
+      "speed": 1.0,
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ],
+      "big": "LIFT OFF",
+      "sub": "from the Moon to deep space"
     },
     {
       "file": "LiftoffAndVoyage.mp4",
       "speed": 1.3,
-      "big": "INFINITE MODE",
-      "sub": "beat your record"
+      "crop": [
+        480,
+        0,
+        1440,
+        1080
+      ],
+      "big": "11 DESTINATIONS",
+      "sub": "then infinite mode",
+      "start": 2.0
     }
-  ]
+  ],
+  "hook": "Where would you go first?",
+  "hook_dur": 1.2
 }
