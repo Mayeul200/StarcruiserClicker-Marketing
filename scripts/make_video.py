@@ -14,7 +14,7 @@ Usage :
 """
 
 import json
-LAYOUT_VERSION = "BOTTOM-CTA-LOGO"  # CTA y=1615, logo y=1700, jeu h=1166
+LAYOUT_VERSION = "BAR-MID-CTA-UP"  # barre y=300, CTA y=1440, logo y=1550, jeu h=1000
 import subprocess
 import sys
 from pathlib import Path
@@ -35,11 +35,11 @@ LOGO = SEQ / "logo2.png"
 
 W, H = 1080, 1920  # vertical par défaut (remplacé si format=landscape)
 BG_BLUE = (10, 14, 26)
-CTA_Y = 1615  # version originale : CTA en bas
-FG_H = 1166  # version originale : grande bande de jeu
-LOGO_Y = 1700  # version originale : logo en bas
+CTA_Y = 1440  # remonté d'un cran (rejeté avant à 1230 : trop haut)
+FG_H = 1000  # grande bande de jeu, légèrement resserrée pour le bloc bas
+LOGO_Y = 1550  # remonté d'un cran (rejeté avant à 1330 : trop haut)
 KEYWORD_Y = 150
-SUB_Y = 330
+SUB_Y = 420
 # layout paysage 1920x1080
 LW, LH = 1920, 1080
 L_CTA_Y = 950
@@ -143,7 +143,7 @@ def steps_png(path: Path, total: int, current: int, landscape: bool = False) -> 
     bar_w = 1000 if landscape else 760
     bar_h = 8 if landscape else 10
     x1 = (w - bar_w) // 2
-    y = 40 if landscape else 76
+    y = 40 if landscape else 300  # entre keyword et sous-titre
     # track de fond (arrondi, translucide)
     d.rounded_rectangle([x1, y, x1 + bar_w, y + bar_h], radius=bar_h // 2,
                         fill=(255, 255, 255, 60))
