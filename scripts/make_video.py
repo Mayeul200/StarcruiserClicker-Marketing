@@ -14,6 +14,7 @@ Usage :
 """
 
 import json
+LAYOUT_VERSION = "BOTTOM-CTA-LOGO"  # CTA y=1615, logo y=1700, jeu h=1166
 import subprocess
 import sys
 from pathlib import Path
