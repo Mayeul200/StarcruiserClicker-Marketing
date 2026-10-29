@@ -39,7 +39,7 @@ CTA_Y = 1440  # remonté d'un cran (rejeté avant à 1230 : trop haut)
 FG_H = 1000  # grande bande de jeu, légèrement resserrée pour le bloc bas
 LOGO_Y = 1550  # remonté d'un cran (rejeté avant à 1330 : trop haut)
 KEYWORD_Y = 150
-SUB_Y = 420
+SUB_Y = 380  # remonté d'un poil sous la barre
 # layout paysage 1920x1080
 LW, LH = 1920, 1080
 L_CTA_Y = 950
