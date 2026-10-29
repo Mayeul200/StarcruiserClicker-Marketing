@@ -32,13 +32,19 @@ SEQ = ROOT / "assets" / "sequences"
 OUT = ROOT / "out"
 LOGO = SEQ / "logo2.png"
 
-W, H = 1080, 1920
+W, H = 1080, 1920  # vertical par défaut (remplacé si format=landscape)
 BG_BLUE = (10, 14, 26)
 CTA_Y = 1615
 FG_H = 1166  # hauteur de la bande de jeu
 LOGO_Y = 1700
 KEYWORD_Y = 150
 SUB_Y = 330
+# layout paysage 1920x1080
+LW, LH = 1920, 1080
+L_CTA_Y = 950
+L_LOGO_W = 420
+L_LOGO_X = 40
+L_LOGO_Y = 990
 XFADE_D = 0.2   # durée du crossfade
 KB_ZOOM = 1.06  # zoom final Ken Burns
 TXT_ANIM_D = 0.25  # apparition du mot-clé (s)
@@ -77,63 +83,66 @@ def text_with_shadow(d, xy, text, font, fill, shadow=(0, 0, 0, 220), offset=6):
     d.text((x, y), text, font=font, fill=fill)
 
 
-def cta_png(path: Path, text: str) -> Path:
-    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+def cta_png(path: Path, text: str, landscape: bool = False) -> Path:
+    w, h = (LW, LH) if landscape else (W, H)
+    cta_y = L_CTA_Y if landscape else CTA_Y
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    font = load_font(44)
+    font = load_font(40 if landscape else 44)
     bbox = d.textbbox((0, 0), text, font=font)
     tw = bbox[2] - bbox[0]
     pad_x, pad_y = 34, 20
-    x1, y1 = (W - tw) // 2 - pad_x, CTA_Y - pad_y
-    x2, y2 = (W + tw) // 2 + pad_x, CTA_Y + bbox[3] + pad_y
+    x1, y1 = (w - tw) // 2 - pad_x, cta_y - pad_y
+    x2, y2 = (w + tw) // 2 + pad_x, cta_y + bbox[3] + pad_y
     d.rounded_rectangle([x1, y1, x2, y2], radius=y2 - y1, fill=(0, 0, 0, 170))
     d.rounded_rectangle([x1, y1, x2, y2], radius=y2 - y1, outline=(126, 200, 255, 200), width=3)
-    d.text(((W - tw) // 2, CTA_Y - bbox[1]), text, font=font, fill="white")
+    d.text(((w - tw) // 2, cta_y - bbox[1]), text, font=font, fill="white")
     img.save(path)
     return path
 
 
-def big_png(path: Path, big: str, sub: str | None) -> Path:
-    """Mot-clé doré + sous-titre, pour apparition animée (fade+zoom)."""
-    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+def big_png(path: Path, big: str, sub: str | None, landscape: bool = False) -> Path:
+    """Mot-clé doré + sous-titre (vertical: flou du haut ; paysage: centre-haut)."""
+    w, h = (LW, LH) if landscape else (W, H)
+    kw_y = 60 if landscape else KEYWORD_Y
+    sub_y = 230 if landscape else SUB_Y
+    max_size = 96 if landscape else 132
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     # taille auto : le texte ne doit jamais dépasser ~92% de la largeur
-    size = 132
+    size = max_size
     while size > 40:
         f = load_font(size)
         bb = d.textbbox((0, 0), big, font=f)
-        if bb[2] - bb[0] <= int(W * 0.92):
+        if bb[2] - bb[0] <= int(w * 0.92):
             break
         size -= 8
     font = load_font(size)
     bbox = d.textbbox((0, 0), big, font=font)
     tw = bbox[2] - bbox[0]
-    cx, y = W // 2, KEYWORD_Y
+    cx, y = w // 2, kw_y
     for off, col in ((10, (0, 0, 0, 200)), (5, (0, 0, 0, 255))):
         d.text((cx - tw // 2 + off, y - bbox[1] + off), big, font=font, fill=col)
     d.text((cx - tw // 2 - 3, y - bbox[1] - 3), big, font=font, fill=(255, 215, 100))
     d.text((cx - tw // 2, y - bbox[1]), big, font=font, fill=(255, 230, 140))
     if sub:
-        f2 = load_font(50)
+        f2 = load_font(44 if landscape else 50)
         b2 = d.textbbox((0, 0), sub, font=f2)
         sw = b2[2] - b2[0]
-        text_with_shadow(d, (cx - sw // 2, SUB_Y - b2[1]), sub, f2, "white")
+        text_with_shadow(d, (cx - sw // 2, sub_y - b2[1]), sub, f2, "white")
     img.save(path)
     return path
 
 
-def steps_png(path: Path, total: int, current: int) -> Path:
-    """Vraie barre de progression : track fin + remplissage continu doré.
-
-    Chaque séquence génère une frame de remplissage proportionnelle —
-    les frames successives des clips donnent une progression fluide.
-    """
-    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+def steps_png(path: Path, total: int, current: int, landscape: bool = False) -> Path:
+    """Vraie barre de progression : track fin + remplissage continu doré."""
+    w, h = (LW, LH) if landscape else (W, H)
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    bar_w = 760
-    bar_h = 10
-    x1 = (W - bar_w) // 2
-    y = 76
+    bar_w = 1000 if landscape else 760
+    bar_h = 8 if landscape else 10
+    x1 = (w - bar_w) // 2
+    y = 40 if landscape else 76
     # track de fond (arrondi, translucide)
     d.rounded_rectangle([x1, y, x1 + bar_w, y + bar_h], radius=bar_h // 2,
                         fill=(255, 255, 255, 60))
@@ -152,32 +161,42 @@ def steps_png(path: Path, total: int, current: int) -> Path:
     return path
 
 
-def logo_png(path: Path) -> Path:
+def logo_png(path: Path, landscape: bool = False) -> Path:
     img = Image.open(LOGO).convert("RGBA")
-    width = 580
-    img = img.resize((width, int(img.height * width / img.width)), Image.LANCZOS)
-    canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    canvas.paste(img, ((W - width) // 2, LOGO_Y), img)
+    if landscape:
+        width = L_LOGO_W
+        img = img.resize((width, int(img.height * width / img.width)), Image.LANCZOS)
+        canvas = Image.new("RGBA", (LW, LH), (0, 0, 0, 0))
+        canvas.paste(img, (L_LOGO_X, L_LOGO_Y), img)
+    else:
+        width = 580
+        img = img.resize((width, int(img.height * width / img.width)), Image.LANCZOS)
+        canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        canvas.paste(img, ((W - width) // 2, LOGO_Y), img)
     canvas.save(path)
     return path
 
 
-def outro_png(path: Path) -> Path:
-    base = Image.new("RGBA", (W, H), BG_BLUE + (255,))
+def outro_png(path: Path, landscape: bool = False) -> Path:
+    w, h = (LW, LH) if landscape else (W, H)
+    base = Image.new("RGBA", (w, h), BG_BLUE + (255,))
     lg = Image.open(LOGO).convert("RGBA")
-    lw = 760
+    lw = 900 if landscape else 760
     lg = lg.resize((lw, int(lg.height * lw / lg.width)), Image.LANCZOS)
-    base.paste(lg, ((W - lw) // 2, 720), lg)
+    logo_y = 380 if landscape else 720
+    base.paste(lg, ((w - lw) // 2, logo_y), lg)
     d = ImageDraw.Draw(base)
-    fq = load_font(64)
+    fq = load_font(72 if landscape else 64)
     q = "How far will YOU go?"
     bq = d.textbbox((0, 0), q, font=fq)
-    d.text(((W - bq[2]) // 2 + 5, 555 + 5), q, font=fq, fill=(0, 0, 0))
-    d.text(((W - bq[2]) // 2, 555), q, font=fq, fill=(255, 215, 100))
-    f2 = load_font(42)
+    qy = 280 if landscape else 555
+    d.text(((w - bq[2]) // 2 + 5, qy + 5), q, font=fq, fill=(0, 0, 0))
+    d.text(((w - bq[2]) // 2, qy), q, font=fq, fill=(255, 215, 100))
+    f2 = load_font(46 if landscape else 42)
     text = "Play free >> starcruiserclicker.com"
     b = d.textbbox((0, 0), text, font=f2)
-    d.text(((W - b[2]) // 2, 1010), text, font=f2, fill=(126, 200, 255))
+    ty = 860 if landscape else 1010
+    d.text(((w - b[2]) // 2, ty), text, font=f2, fill=(126, 200, 255))
     base.convert("RGB").save(path)
     return path
 
@@ -200,8 +219,9 @@ def main() -> None:
     tmp = OUT / "_tmp"
     tmp.mkdir(exist_ok=True)
 
-    cta = cta_png(tmp / "cta.png", plan.get("cta", "Play free: starcruiserclicker.com"))
-    logo = logo_png(tmp / "logo.png")
+    landscape = plan.get("format") == "landscape"
+    cta = cta_png(tmp / "cta.png", plan.get("cta", "Play free: starcruiserclicker.com"), landscape)
+    logo = logo_png(tmp / "logo.png", landscape)
 
     clips = [c for c in plan["clips"] if (SEQ / c["file"]).exists()]
     n = len(clips)
@@ -211,7 +231,7 @@ def main() -> None:
     # hook plein écran (optionnel, plan["hook"]) : gros texte au tout début
     hook_png_file = None
     if plan.get("hook"):
-        hook_png_file = big_png(tmp / "hook.png", plan["hook"], plan.get("hook_sub"))
+        hook_png_file = big_png(tmp / "hook.png", plan["hook"], plan.get("hook_sub"), landscape)
     parts = []
     for i, clip in enumerate(clips):
         src = SEQ / clip["file"]
@@ -220,8 +240,8 @@ def main() -> None:
         if clip.get("max"):
             dur = min(dur, float(clip["max"]))
         has_text = bool(clip.get("big"))
-        big = big_png(tmp / f"big{i}.png", clip["big"], clip.get("sub")) if has_text else blank
-        steps = steps_png(tmp / f"steps{i}.png", n, clip.get("progress", i + 1))
+        big = big_png(tmp / f"big{i}.png", clip["big"], clip.get("sub"), landscape) if has_text else blank
+        steps = steps_png(tmp / f"steps{i}.png", n, clip.get("progress", i + 1), landscape)
         part = tmp / f"part{i}.mp4"
         # hook plein écran sur la 1re séquence, EN PLUS du mot-clé du clip
         # (le hook fade out, puis le mot-clé de la séquence prend le relais)
@@ -231,7 +251,21 @@ def main() -> None:
             hook_dur = float(plan.get("hook_dur", 1.2))
             hook_input = hook_png_file
 
-        if clip.get("crop"):
+        if landscape:
+            # paysage : le jeu 16:9 remplit tout l'écran 1920x1080
+            # (crop horizontal optionnel pour zoomer une zone)
+            if clip.get("crop"):
+                x1, y1, x2, y2 = clip["crop"]
+                cw, ch = x2 - x1, y2 - y1
+                fg_chain = (
+                    f"crop={cw}:{ch}:{x1}:{y1},"
+                    f"scale={LW}:{LH}:force_original_aspect_ratio=increase:flags=area,"
+                    f"crop={LW}:{LH},setsar=1"
+                )
+            else:
+                fg_chain = f"scale={LW}:{LH}:flags=area,setsar=1"
+            bg_chain = fg_chain  # pas de fond flouté en paysage
+        elif clip.get("crop"):
             x1, y1, x2, y2 = clip["crop"]
             cw, ch = x2 - x1, y2 - y1
             fg_chain = (
@@ -278,11 +312,12 @@ def main() -> None:
             )
             hook_anim = None
         # punch zoom en début de séquence puis Ken Burns continu
+        ow, oh = (LW, LH) if landscape else (W, H)
         zoom_expr = f"if(lt(on,8),1.08-0.01*on,min(1+0.00015*on,{KB_ZOOM}))"
         punch = (
-            f"scale={W * 2}:{H * 2}:flags=area,"
+            f"scale={ow * 2}:{oh * 2}:flags=area,"
             f"zoompan=z='{zoom_expr}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
-            f":d=1:s={W}x{H}:fps={FPS},setsar=1"
+            f":d=1:s={ow}x{oh}:fps={FPS},setsar=1"
         )
         if has_text:
             txt_overlay = f"[b0][txt]overlay=0:0[b1];[b1][2:v]overlay=0:0[b2];"
@@ -295,11 +330,17 @@ def main() -> None:
         if hook_input is not None:
             hook_chain = f"{hook_anim};{last}[hook]overlay=0:0[hh];"
             hook_ref = "[hh]"
+        if landscape:
+            compose = f"[0:v]setpts={1 / speed:.6f}*PTS,{fg_chain},{vignette_chain()}[b0];"
+        else:
+            compose = (
+                f"[0:v]setpts={1 / speed:.6f}*PTS,split=2[s1][s2];"
+                f"[s1]{bg_chain}[bg];"
+                f"[s2]{fg_chain}[fg];"
+                f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,{vignette_chain()}[b0];"
+            )
         fc = (
-            f"[0:v]setpts={1 / speed:.6f}*PTS,split=2[s1][s2];"
-            f"[s1]{bg_chain}[bg];"
-            f"[s2]{fg_chain}[fg];"
-            f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,{vignette_chain()}[b0];"
+            compose
             + (f"{big_anim};" if has_text else "")
             + txt_overlay
             + hook_chain
@@ -334,10 +375,11 @@ def main() -> None:
     inputs2 = ["-i", str(body)]
     fc2 = "[0:v]copy[v]"
     if plan.get("outro", True):
-        o = outro_png(tmp / "outro.png")
+        o = outro_png(tmp / "outro.png", landscape)
         outro = tmp / "outro.mp4"
+        osize = "1920:1080" if landscape else "1080:1920"
         run([FF, "-y", "-loop", "1", "-t", "1.5", "-i", str(o),
-             "-vf", "scale=1080:1920,setsar=1,format=yuv420p", "-r", str(FPS), str(outro)])
+             "-vf", f"scale={osize},setsar=1,format=yuv420p", "-r", str(FPS), str(outro)])
         inputs2 += ["-i", str(outro)]
         fc2 = "[0:v][1:v]xfade=transition=fade:duration=0.3:offset=" \
               f"{probe_duration(body) - 0.15:.3f}[v]"
