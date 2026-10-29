@@ -34,12 +34,11 @@ LOGO = SEQ / "logo2.png"
 
 W, H = 1080, 1920  # vertical par défaut (remplacé si format=landscape)
 BG_BLUE = (10, 14, 26)
-CTA_Y = 1050   # zone sûre Reels : y 210->1250 -> tout doit finir avant 1250
-FG_H = 620     # bande de jeu resserrée (keyword 150->500, jeu 610->1230)
-LOGO_Y = 1150  # logo (h=155) -> bas à 1305... trop bas : réduit le logo
+CTA_Y = 1230   # remonté, hors zone morte TikTok (>=1440) et lisible partout
+FG_H = 800     # retour au format d'avant : bande de jeu plus grande
+LOGO_Y = 1330  # logo (h~102) -> bas à ~1432, juste avant la zone morte
 KEYWORD_Y = 150
-SUB_Y = 330
-STEPS_Y = 60
+SUB_Y = 420    # descendu : la barre de progression s'insère entre keyword et sub
 # layout paysage 1920x1080
 LW, LH = 1920, 1080
 L_CTA_Y = 950
@@ -143,7 +142,7 @@ def steps_png(path: Path, total: int, current: int, landscape: bool = False) -> 
     bar_w = 1000 if landscape else 760
     bar_h = 8 if landscape else 10
     x1 = (w - bar_w) // 2
-    y = 40 if landscape else 60
+    y = 40 if landscape else 300  # entre le keyword et le sous-titre
     # track de fond (arrondi, translucide)
     d.rounded_rectangle([x1, y, x1 + bar_w, y + bar_h], radius=bar_h // 2,
                         fill=(255, 255, 255, 60))
