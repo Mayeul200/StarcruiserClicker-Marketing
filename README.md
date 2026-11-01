@@ -9,6 +9,7 @@ Ce dépôt contient la stratégie, le calendrier éditorial, la bibliothèque d'
 ```
 docs/
   STRATEGIE.md          # Stratégie complète : réseaux, formats, objectifs
+  PLAN-ACQUISITION.md   # Plan d'acquisition hors réseaux sociaux (itch.io, Reddit, SEO, PR, créateurs) — 4 semaines
   CALENDRIER.md         # Calendrier de lancement (1 vidéo/jour, 10 jours)
   TOURNAGE.md           # Guide de tournage : quoi filmer, comment, où le mettre
   PUBLICATION.md        # Programmation native YouTube/TikTok (100 % gratuite)
@@ -16,6 +17,11 @@ docs/
 content/
   ideas.json            # Bibliothèque : 1 vidéo principale + 9 vidéos mécaniques
   postes/               # Fiches de posts prêtes à produire (1 fichier = 1 post)
+  itch-io.md            # Fiche itch.io prête à remplir (textes, captures, tags)
+  post-reddit.md        # Post Reddit type + variantes + timing
+  pr-awesome-lists.md   # Texte de PR GitHub awesome-lists + AlternativeTo
+  mail-youtubeurs.md    # Mail-type pour contacter les créateurs + tableau de suivi
+  checklist-plateformes.md  # Checklist de soumission itch.io / CrazyGames / Poki / GSC…
 assets/
   sequences/            # Séquences de gameplay brutes (matière première des vidéos)
   fonts/                # Polices pour le montage
