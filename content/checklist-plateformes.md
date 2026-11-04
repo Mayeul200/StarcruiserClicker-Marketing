@@ -11,8 +11,8 @@ Lien à utiliser partout : `https://starcruiserclicker.com/?utm_source=<platefor
 - [ ] Liens : site, wiki, devlog, leaderboard
 - [ ] Commentaires activés
 
-## CrazyGames (STRICT : pas de ZIP, fichiers directs, index.html requis a la racine)
-- [ ] Compte dev + soumission sur developer.crazygames.com
+## CrazyGames ✅ SOUMIS (en review)
+- [x] Compte dev + soumission sur developer.crazygames.com
 - [ ] **PAS de zip** : dézipper `builds/starcruiser-clicker-platforms.zip` et glisser-déposer
        **les fichiers/dossiers directement** dans la zone d'upload (index.html, game.html, images/, wasm/, etc.)
 - [ ] L'upload doit contenir **`index.html` a la racine** (exigé par CrazyGames pour lancer le jeu)
