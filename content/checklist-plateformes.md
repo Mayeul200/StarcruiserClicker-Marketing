@@ -11,10 +11,12 @@ Lien à utiliser partout : `https://starcruiserclicker.com/?utm_source=<platefor
 - [ ] Liens : site, wiki, devlog, leaderboard
 - [ ] Commentaires activés
 
-## CrazyGames (STRICT : jeu jouable dans l'iframe obligatoire)
-- [ ] Compte dev + soumission
-- [ ] Utiliser `builds/starcruiser-clicker-platforms.zip` (build brut, PAS le zip itch patché)
-- [ ] Main file = **`game.html`** — le jeu doit tourner chez eux, pas de redirection
+## CrazyGames (STRICT : pas de ZIP, fichiers directs, index.html requis a la racine)
+- [ ] Compte dev + soumission sur developer.crazygames.com
+- [ ] **PAS de zip** : dézipper `builds/starcruiser-clicker-platforms.zip` et glisser-déposer
+       **les fichiers/dossiers directement** dans la zone d'upload (index.html, game.html, images/, wasm/, etc.)
+- [ ] L'upload doit contenir **`index.html` a la racine** (exigé par CrazyGames pour lancer le jeu)
+- [ ] Dans le build brut, JOUER (index.html) ouvre `game.html` DANS le meme iframe → jeu jouable chez eux ✅
 - [ ] Le funnel vers ton site passe par le bouton "Site officiel" en topbar (auto sur crazygames.com)
 - [ ] Icône 512×512, bannière, description EN
 - [ ] UTM `?utm_source=crazygames`
