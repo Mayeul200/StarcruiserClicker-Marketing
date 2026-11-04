@@ -11,8 +11,11 @@ Lien à utiliser partout : `https://starcruiserclicker.com/?utm_source=<platefor
 - [ ] Liens : site, wiki, devlog, leaderboard
 - [ ] Commentaires activés
 
-## CrazyGames
-- [ ] Compte dev + soumission du build web (URL du jeu)
+## CrazyGames (STRICT : jeu jouable dans l'iframe obligatoire)
+- [ ] Compte dev + soumission
+- [ ] Utiliser `builds/starcruiser-clicker-platforms.zip` (build brut, PAS le zip itch patché)
+- [ ] Main file = **`game.html`** — le jeu doit tourner chez eux, pas de redirection
+- [ ] Le funnel vers ton site passe par le bouton "Site officiel" en topbar (auto sur crazygames.com)
 - [ ] Icône 512×512, bannière, description EN
 - [ ] UTM `?utm_source=crazygames`
 

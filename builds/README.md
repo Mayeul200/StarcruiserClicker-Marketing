@@ -21,3 +21,9 @@ git archive --format=zip -o /tmp/sc.zip HEAD
 - le site officiel (starcruiserclicker.com) n'est PAS modifie
 
 Regenerer apres chaque changement du jeu : `python3 builds/make-itch-zip.py`
+
+## Zip plateformes strictes (CrazyGames, Poki, GameJolt, Newgrounds)
+`starcruiser-clicker-platforms.zip` = build BRUT (non patché) : main file = **`game.html`**,
+le jeu est jouable directement dans l'iframe de la plateforme (exigé par CrazyGames).
+Le bouton "Site officiel" dans la topbar du jeu (visible uniquement sur ces domaines)
+renvoie vers `https://starcruiserclicker.com/game.html?utm_source=embed`.
