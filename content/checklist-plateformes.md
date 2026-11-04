@@ -2,8 +2,8 @@
 
 Lien à utiliser partout : `https://starcruiserclicker.com/?utm_source=<plateforme>`
 
-## itch.io
-- [ ] Compte créé, page projet « HTML5 / playable in browser »
+## itch.io ✅ PUBLIÉ
+- [x] Compte créé, page projet « HTML5 / playable in browser »
 - [ ] Titre + tagline + descriptions (voir `content/itch-io.md`)
 - [ ] 5–8 captures 1280×720 + 1 GIF animé (boucle décollage)
 - [ ] Prix : Name your price (0 par défaut)
