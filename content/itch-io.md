@@ -3,8 +3,8 @@
 Page : https://<ton-username>.itch.io/starcruiser-clicker
 Prix : **Name your price** (0 € par défaut)
 Type : **Playable in browser** (HTML5)
-Fichier de lancement (itch.io, champ "Main file") : **`itch-play.html`** — redirige le bouton JOUER/Run vers le site officiel `https://starcruiserclicker.com/game.html?utm_source=itchio`.
-Alternative si tu préfères que le jeu soit jouable DANS l'iframe itch.io : main file = `game.html` (le bouton "Site officiel" dans la topbar du jeu renvoie alors vers le site).
+Fichier de lancement (itch.io, champ "Main file") : **`index.html`** (ou ce que itch.io propose par défaut — peu importe).
+La landing embarquée détecte automatiquement le domaine itch.io/itch.zone et redirige vers `https://starcruiserclicker.com/game.html?utm_source=itchio` : le bouton JOUER d'itch.io mène forcément sur le site officiel.
 
 ## Titre
 Starcruiser Clicker — Free Space Incremental Game
