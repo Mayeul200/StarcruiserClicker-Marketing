@@ -3,6 +3,7 @@
 Page : https://<ton-username>.itch.io/starcruiser-clicker
 Prix : **Name your price** (0 € par défaut)
 Type : **Playable in browser** (HTML5)
+Fichier de lancement (itch.io, champ "Main file") : **`game.html`** — PAS index.html, sinon le joueur tombe sur la landing au lieu du jeu.
 
 ## Titre
 Starcruiser Clicker — Free Space Incremental Game
