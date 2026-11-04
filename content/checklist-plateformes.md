@@ -16,7 +16,8 @@ Lien à utiliser partout : `https://starcruiserclicker.com/?utm_source=<platefor
 - [ ] **PAS de zip** : dézipper `builds/starcruiser-clicker-platforms.zip` et glisser-déposer
        **les fichiers/dossiers directement** dans la zone d'upload (index.html, game.html, images/, wasm/, etc.)
 - [ ] L'upload doit contenir **`index.html` a la racine** (exigé par CrazyGames pour lancer le jeu)
-- [ ] Dans le build brut, JOUER (index.html) ouvre `game.html` DANS le meme iframe → jeu jouable chez eux ✅
+- [ ] Dans ce zip, `index.html` auto-redirige vers `game.html` (meme iframe, meme origine) → CrazyGames lance index.html et le JEU se charge direct ✅
+- [ ] Le site officiel (starcruiserclicker.com) n'est PAS modifié : le patch n'existe que dans ce zip
 - [ ] Le funnel vers ton site passe par le bouton "Site officiel" en topbar (auto sur crazygames.com)
 - [ ] Icône 512×512, bannière, description EN
 - [ ] UTM `?utm_source=crazygames`
