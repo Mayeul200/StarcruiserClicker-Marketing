@@ -27,3 +27,9 @@ Regenerer apres chaque changement du jeu : `python3 builds/make-itch-zip.py`
 le jeu est jouable directement dans l'iframe de la plateforme (exigé par CrazyGames).
 Le bouton "Site officiel" dans la topbar du jeu (visible uniquement sur ces domaines)
 renvoie vers `https://starcruiserclicker.com/game.html?utm_source=embed`.
+
+## Re-publication (mise à jour des plateformes existantes)
+1. Régénérer les zips après chaque changement du jeu : `python3 builds/make-itch-zip.py` et `python3 builds/make-platforms-zip.py`
+2. **itch.io** : remplacer le fichier sur la MÊME page projet (ne PAS recréer de page, sinon pénalité)
+3. **CrazyGames / GameJolt / Poki / Newgrounds** : re-upload le zip `starcruiser-clicker-platforms.zip` (ou les fichiers dézippés) sur la même fiche jeu
+4. Le bouton « Site officiel » renvoie vers starcruiserclicker.com (utm_source=embed) ; sur itch.io la landing renvoie via JOUER (utm_source=itchio)
